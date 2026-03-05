@@ -7,6 +7,7 @@ import xarray as xr
 from io import BytesIO
 import plotly.express as px
 import plotly.graph_objects as go
+chardet==5.2.0
 # import os
 # import sys
 # from streamlit_extras.app_logo import add_logo
@@ -1724,3 +1725,4 @@ if page == "Plot Results":
 
 
 dashboard = Dashboard()
+
