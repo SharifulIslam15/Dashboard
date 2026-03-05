@@ -636,7 +636,10 @@ if page == "Material Demand":
         st.session_state.pv_material_intensity = np.zeros(pv_years)
 
     selected_supply_option = st.selectbox("Future PV Production (GWp)", future_pv_options,index=pv_options_ind)
-    if selected_supply_option == "Default values":
+    if st.session_state.input["scenario_option"] == 1 and np.all(st.session_state.pv_production == 0):
+        st.session_state.pv_production = np.array([45.56, 53.11, 60.79, 68.83, 78.09, 89.06])
+        st.session_state.pv_market_share = np.array([100, 100, 100, 100, 100, 100])
+        st.session_state.pv_material_intensity = np.array([24800, 24800, 24800, 24800, 24800, 24800])
         pv_user_input = 1
         # to be determined 
         annual_incremental_capacity1 = 0
@@ -645,7 +648,8 @@ if page == "Material Demand":
         pv_year = st.selectbox("Select the year for input",years_list, key="pv_production_year1")
         ind = years_list.index(pv_year)
         #if "pv_production" not in st.session_state:
-        st.session_state.pv_production = np.zeros(pv_years)
+        if "pv_production" not in st.session_state:
+            st.session_state.pv_production = np.zeros(pv_years)
         pv_market_share = st.number_input(f"Enter the market share of the PV technology of interest (%) for {years_list[ind]}", min_value=0.0, step=0.1, value=0.0,key=f"annual_pv_share1{years_list[ind]}")
         pv_material_intensity = st.number_input(f"Enter the material intensity (kg/GWp) for {years_list[ind]}", min_value = 0.0, step=0.1, value = 0.0,key=f"annual_pv_intensity1{years_list[ind]}")
         if st.button("Add",key="pv_production1"):
@@ -1724,5 +1728,6 @@ if page == "Plot Results":
 
 
 dashboard = Dashboard()
+
 
 
