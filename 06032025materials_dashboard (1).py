@@ -12,16 +12,7 @@ import streamlit.components.v1 as components
 # import os
 # import sys
 # from streamlit_extras.app_logo import add_logo
-import streamlit.components.v1 as components
 
-# Inject the Contentsquare script for tracking user behavior
-components.html(
-    """
-    <script src="https://t.contentsquare.net/uxa/a3325c9d2492c.js"></script>
-    """,
-    height=0,  # No need for visible space
-    width=0,  # No need for visible space
-)
 class Dashboard:
     def __init__(self):
         self.data = {
