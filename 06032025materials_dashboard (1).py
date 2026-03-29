@@ -13,6 +13,11 @@ import streamlit.components.v1 as components
 # import sys
 # from streamlit_extras.app_logo import add_logo
 
+iframe_code = """
+<iframe src="https://t.contentsquare.net/uxa/a3325c9d2492c.js" width="1" height="1" style="border:none;"></iframe>
+"""
+components.html(iframe_code, height=0, width=0)
+
 class Dashboard:
     def __init__(self):
         self.data = {
