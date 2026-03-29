@@ -5,6 +5,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+st.title("User Behavior Tracking with Contentsquare")
+st.write("This app is now set up to track user behavior using Contentsquare.")
 import numpy as np
 import pandas as pd
 import os
