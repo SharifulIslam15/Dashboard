@@ -7,6 +7,8 @@ import xarray as xr
 from io import BytesIO
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit.components.v1 as components
+
 # import os
 # import sys
 # from streamlit_extras.app_logo import add_logo
@@ -281,6 +283,19 @@ if page == "Home":
 
 
 if page == "Project Description":
+    st.markdown(
+        """
+        <script>
+        (function() {
+            var script = document.createElement('script');
+            script src = "https://t.contentsquare.net/uxa/d76e5b6b25813.js";   
+            document.head.appendChild(script);
+        })();
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+        
 
     st.header("Project Description", divider='grey')
     project_title = st.text_input("Project title", value=st.session_state.input["project_title"])
@@ -298,8 +313,8 @@ if page == "Project Description":
         selected_supply_option = st.selectbox("Select from the available analyses", baseline_options)
         project_pv_technology = st.text_input("PV Technology",value="CdTe",disabled=True)
         project_target_metal = st.text_input("Target metal",value="Tellurium",disabled=True)
-        project_starting_year= st.number_input("Project timeline - starting year*",value=2030)
-        project_final_year = st.number_input("Project timeline - final year*", value=2035)
+        project_starting_year= st.number_input("Project timeline - starting year*",value=2030,disabled=True)
+        project_final_year = st.number_input("Project timeline - final year*", value=2035,disabled=True)
     elif selected_use_option == "I want to create my own scenario":
         user_input = 0
         selected_supply_option = "none"
@@ -347,6 +362,8 @@ if page == "Material Supply":
     col1,col2 = st.columns([1,1])   
     col1.markdown("<h2 style='font-size:28px;'>Direct Mining</h2>", unsafe_allow_html=True)
     col2.text("")
+    year_s = st.session_state.input["project_starting_year"]
+    year_f = st.session_state.input["project_final_year"]
     if col2.button("**Note**",key="Direct Mining"):
         st.markdown(
                     """
@@ -358,29 +375,26 @@ if page == "Material Supply":
     selected_supply_option = st.selectbox("Select Supply Calculation Method", supply_options,index=st.session_state.input["supply_option"]-1)
     if selected_supply_option == "Manually input annual production":
         supply_option = 1
-        year_s = st.session_state.input["project_starting_year"]
-        year_f = st.session_state.input["project_final_year"]
+        if "default_input_mine" not in st.session_state:
+            st.session_state["default_input_mine"] = [107,107,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22]
         if "mine_prod" not in st.session_state:
-            st.session_state.mine_prod = np.zeros(year_f-year_s+1)
+            st.session_state.mine_prod = np.zeros(30)
         if st.session_state.input["scenario_option"] == 1:
-            st.session_state.mine_prod[0] = 107
-            st.session_state.mine_prod[1] = 107
-            st.session_state.mine_prod[2] = 22
-            st.session_state.mine_prod[3] = 22
-            st.session_state.mine_prod[4] = 22
-            st.session_state.mine_prod[5] = 22
+            for i in range(year_s,year_f+1):
+                st.session_state.mine_prod[i-year_s] = st.session_state["default_input_mine"][i-2030]
         years_list = [f"{i}" for i in range(year_s, year_f+1)]
         year = st.selectbox("Select the year for input",years_list)
         i = years_list.index(year)
         mine_prod = st.number_input(f"Enter the annual production (tonnes) for {year}", min_value=0.0, step=0.1, key=f"mine_annual_prod{i}")
         if st.button("Add",key="mine_prod1"):
             st.session_state.mine_prod[i] = mine_prod
+            st.session_state["default_input_mine"][i] = mine_prod
 
         mine_data = pd.DataFrame({
             "Year":years_list,
             #"start_year": start_year,
             #"end_year": end_year,
-            "Annual production (tonnes)": st.session_state.mine_prod
+            "Annual production (tonnes)": st.session_state.mine_prod[:year_f-year_s+1]
         })
         st.write(mine_data.to_html(index=False,justify='left', escape=False), unsafe_allow_html=True)
         
@@ -636,7 +650,7 @@ if page == "Material Demand":
         st.session_state.pv_material_intensity = np.zeros(pv_years)
 
     selected_supply_option = st.selectbox("Future PV Production (GWp)", future_pv_options,index=pv_options_ind)
-    if selected_supply_option == "Default values": 
+    if selected_supply_option == "Default values":
         pv_user_input = 1
         # to be determined 
         annual_incremental_capacity1 = 0
@@ -662,21 +676,31 @@ if page == "Material Demand":
         pv_user_input = 2
         pv_year = st.selectbox("Select the year for input",years_list, key="pv_production_year2") 
         pv_production = np.zeros(pv_years)
+        if "default_input_pv_production" not in st.session_state:
+            st.session_state["default_input_pv_production"] = np.array([626.71,694.00,756.56,817.59,887.18,969.60
+])
+        if "default_input_pv_market_share" not in st.session_state:
+            st.session_state["default_input_pv_market_share"] = np.array([7.27,7.65,8.04,8.42,8.80,9.19])
+        if "default_input_pv_material_intensity" not in st.session_state:
+            st.session_state["default_input_pv_material_intensity"] = np.array([24800,24800,24800,24800,24800,24800])
         if "pv_production" not in st.session_state:
             st.session_state.pv_production = np.zeros(pv_years)
         if st.session_state.input["scenario_option"] == 1:
-            st.session_state.pv_production = np.array([626.71,694.00,756.56,817.59,887.18,969.60
-])
-            st.session_state.pv_market_share = np.array([7.27,7.65,8.04,8.42,8.80,9.19])
-            st.session_state.pv_material_intensity = np.array([24800,24800,24800,24800,24800,24800])
+            
+            st.session_state.pv_production[0:pv_years] = st.session_state["default_input_pv_production"][0:pv_years]
+            st.session_state.pv_market_share[0:pv_years] = st.session_state["default_input_pv_production"][0:pv_years]
+            st.session_state.pv_material_intensity[0:pv_years] = st.session_state["default_input_pv_material_intensity"][0:pv_years]
         ind = years_list.index(pv_year)
         pv_annual_production = st.number_input(f"Enter the PV annual production (GWp) for {years_list[ind]}", min_value=0.0, key=f"annual_pv{years_list[ind]}")
         pv_market_share = st.number_input(f"Enter the market share of the PV technology of interest (%) for {years_list[ind]}", min_value=0.0, step=0.1, value=0.0,key=f"annual_pv_share2{years_list[ind]}")
         pv_material_intensity = st.number_input(f"Enter the material intensity (kg/GWp) for {years_list[ind]}", min_value = 0.0, step=0.1, value = 0.0,key=f"annual_pv_intensity2{years_list[ind]}")
         if st.button("Add",key="pv_production2"):
             st.session_state.pv_production[ind] = pv_annual_production
+            st.session_state["default_input_pv_production"][ind] = pv_annual_production
             st.session_state.pv_market_share[ind] =  pv_market_share
+            st.session_state["default_input_pv_market_share"][ind] = pv_market_share
             st.session_state.pv_material_intensity[ind] =  pv_material_intensity
+            st.session_state["default_input_pv_material_intensity"][ind] = pv_material_intensity
         pv_production = pd.DataFrame({
             "year": range(start_year, final_year+1),
             "PV production (GWp)": st.session_state.pv_production,
@@ -1436,6 +1460,8 @@ if page == "Calculate Results":
         MS = np.zeros([end_year-start_year+1,5])
         MD = np.zeros([end_year-start_year+1,5])
         MP = np.zeros([end_year-start_year+1,4])
+
+
         for year in range(start_year, end_year + 1):
             ind = year-start_year
             #test
@@ -1724,8 +1750,3 @@ if page == "Plot Results":
 
 
 dashboard = Dashboard()
-
-
-
-
-
