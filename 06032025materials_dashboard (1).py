@@ -1,4 +1,10 @@
 import streamlit as st
+st.markdown(
+    """
+    <script src="https://t.contentsquare.net/uxa/a3325c9d2492c.js"></script>
+    """,
+    unsafe_allow_html=True
+)
 import numpy as np
 import pandas as pd
 import os
