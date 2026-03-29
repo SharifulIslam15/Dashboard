@@ -1,12 +1,4 @@
 import streamlit as st
-st.markdown(
-    """
-    <script src="https://t.contentsquare.net/uxa/a3325c9d2492c.js"></script>
-    """,
-    unsafe_allow_html=True
-)
-st.title("User Behavior Tracking with Contentsquare")
-st.write("This app is now set up to track user behavior using Contentsquare.")
 import numpy as np
 import pandas as pd
 import os
@@ -20,7 +12,12 @@ import streamlit.components.v1 as components
 # import os
 # import sys
 # from streamlit_extras.app_logo import add_logo
-
+st.markdown(
+    """
+    <script src="https://t.contentsquare.net/uxa/a3325c9d2492c.js"></script>
+    """,
+    unsafe_allow_html=True
+)
 class Dashboard:
     def __init__(self):
         self.data = {
