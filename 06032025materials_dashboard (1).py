@@ -1598,3 +1598,5 @@ if page == "Plot Results":
 
 
 dashboard = Dashboard()
+df.to_csv("/Users/yourname/Desktop/dashboard_usage_log.csv", index=False)
+
