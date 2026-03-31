@@ -11,6 +11,7 @@ import streamlit.components.v1 as components
 import time
 import uuid
 import csv
+from pathlib import Path
 
 
 class Dashboard:
@@ -53,7 +54,10 @@ class Dashboard:
 # -----------------------------
 # Tracking utilities
 # -----------------------------
-LOG_FILE = "dashboard_usage_log.csv"
+BASE_DIR = Path.cwd()
+OUTPUT_DIR = BASE_DIR / "data" / "output"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+LOG_FILE = OUTPUT_DIR / "dashboard_usage_log.csv"
 
 
 def init_tracking():
