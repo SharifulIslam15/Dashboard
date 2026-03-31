@@ -1597,6 +1597,4 @@ if page == "Plot Results":
         st.plotly_chart(fig3)
 
 
-dashboard = Dashboard()
-df.to_csv("/Users/yourname/Desktop/dashboard_usage_log.csv", index=False)
 
