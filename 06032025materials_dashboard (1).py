@@ -445,7 +445,7 @@ with st.sidebar:
     st.image("msu_logo.png")
 st.sidebar.title("Material Availability Assessment Dashboard")
 #"Home"
-page = st.sidebar.selectbox("Dashboard Navigation", ["Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Circular Economy", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
+page = st.sidebar.selectbox("Dashboard Navigation", ["Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
 
 #Change (1 line)
 track_page(page)
@@ -454,7 +454,6 @@ st.sidebar.subheader("Project Description")
 st.sidebar.subheader("Material Supply")
 st.sidebar.subheader("Material Demand")
 st.sidebar.subheader("Supply Gap and Price Effect")
-st.sidebar.subheader("Circular Economy")
 st.sidebar.subheader("Modelling Inputs Review")
 st.sidebar.subheader("Calculate Results")
 st.sidebar.subheader("Plot Results")
@@ -1247,195 +1246,6 @@ if page == "Supply Gap and Price Effect":
         st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
 
 
-
-# ── Page: Circular Economy ────────────────────────────────────────────────────
-if page == "Circular Economy":
-    st.header("Circular Economy (CE) Assessment", divider='grey')
-
-    st.markdown(
-        """
-        <p style='font-size:15px;'>
-        The <b>Circular Economy</b> module lets you model how CE strategies reduce primary material demand
-        and increase secondary supply. Inputs here are applied on top of your base-case scenario during
-        <b>Calculate Results</b> when CE is enabled.
-        </p>
-        """, unsafe_allow_html=True)
-
-    st.markdown(
-        """
-        <div style='background-color:#c8e6c9;border-left:5px solid #2e7d32;padding:10px 16px;border-radius:6px;margin-bottom:12px'>
-        <b>🔄 CE Hierarchy applied (highest to lowest priority):</b><br>
-        Reuse → Remanufacturing → Recycling (already in base model) → Urban Mining → Material Substitution
-        </div>
-        """, unsafe_allow_html=True)
-
-    # ── Section 1: Enable CE ──────────────────────────────────────────────────
-    st.subheader("1. Enable Circular Economy Adjustments")
-    ce_enabled = st.toggle(
-        "Apply CE adjustments in calculations",
-        value=bool(st.session_state.input.get("ce_enabled", False))
-    )
-
-    st.divider()
-
-    # ── Section 2: Reuse ──────────────────────────────────────────────────────
-    st.subheader("2. Panel Reuse")
-    st.markdown(
-        "Reuse extends the service life of functional PV panels without reprocessing, "
-        "directly reducing both new demand and end-of-life waste."
-    )
-    col1, col2 = st.columns(2)
-    ce_reuse_rate = col1.number_input(
-        "Panel reuse rate (% of end-of-life panels reused)",
-        min_value=0.0, max_value=100.0, step=0.1,
-        value=float(st.session_state.input.get("ce_reuse_rate", 0.0)),
-        help="Panels reused are removed from the waste stream and do not trigger new demand."
-    )
-    ce_lifetime_extension = col2.number_input(
-        "Lifetime extension from reuse (additional years)",
-        min_value=0, max_value=30, step=1,
-        value=int(st.session_state.input.get("ce_lifetime_extension", 0)),
-        help="How many extra years a reused panel operates before final disposal."
-    )
-
-    # Live impact preview
-    if ce_reuse_rate > 0:
-        base_demand = st.session_state.input.get("nonpv_demand", 0)
-        est_reduction = base_demand * (ce_reuse_rate / 100) * 0.6   # rough factor
-        st.markdown(
-            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ At {ce_reuse_rate:.1f}% reuse, "
-            f"estimated annual demand reduction ≈ <b>{est_reduction:,.1f} tonnes</b> (indicative).</p>",
-            unsafe_allow_html=True
-        )
-
-    st.divider()
-
-    # ── Section 3: Remanufacturing ────────────────────────────────────────────
-    st.subheader("3. Remanufacturing")
-    st.markdown(
-        "Remanufacturing restores used panels or components to original performance specs. "
-        "It recovers more value than recycling but requires less virgin material than new production."
-    )
-    ce_remanufacturing_rate = st.number_input(
-        "Remanufacturing rate (% of collected end-of-life panels remanufactured)",
-        min_value=0.0, max_value=100.0, step=0.1,
-        value=float(st.session_state.input.get("ce_remanufacturing_rate", 0.0)),
-        help="Remanufactured panels re-enter the supply chain, reducing demand for new panels."
-    )
-
-    st.divider()
-
-    # ── Section 4: Urban Mining ───────────────────────────────────────────────
-    st.subheader("4. Urban Mining")
-    st.markdown(
-        "Urban mining recovers critical materials from legacy installed PV fleets, "
-        "electronics, and industrial waste streams — supplementing primary supply."
-    )
-    col3, col4 = st.columns(2)
-    ce_urban_mining_rate = col3.number_input(
-        "Urban mining recovery rate (% of legacy stock recovered annually)",
-        min_value=0.0, max_value=100.0, step=0.1,
-        value=float(st.session_state.input.get("ce_urban_mining_rate", 0.0)),
-        help="Material recovered through urban mining is added to total supply."
-    )
-    ce_urban_mining_stock = col4.number_input(
-        "Estimated recoverable urban stock (tonnes)",
-        min_value=0.0, step=1.0,
-        value=float(st.session_state.input.get("ce_urban_mining_stock", 0.0)),
-        help="Total material available in the urban mine (above-ground stocks)."
-    )
-
-    if ce_urban_mining_rate > 0 and ce_urban_mining_stock > 0:
-        annual_urban = ce_urban_mining_stock * (ce_urban_mining_rate / 100)
-        st.markdown(
-            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ Estimated annual urban mining supply: "
-            f"<b>{annual_urban:,.1f} tonnes/year</b>.</p>",
-            unsafe_allow_html=True
-        )
-
-    st.divider()
-
-    # ── Section 5: Material Substitution ─────────────────────────────────────
-    st.subheader("5. Material Substitution")
-    st.markdown(
-        "Substitution replaces the target material with an alternative, reducing total demand. "
-        "A factor of 0.2 means 20% of demand is met by a substitute."
-    )
-    ce_substitution_factor = st.slider(
-        "Substitution factor (fraction of demand met by alternative material)",
-        min_value=0.0, max_value=1.0, step=0.01,
-        value=float(st.session_state.input.get("ce_substitution_factor", 0.0)),
-        help="0 = no substitution; 1 = full substitution (target material no longer needed)."
-    )
-    if ce_substitution_factor > 0:
-        st.markdown(
-            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ {ce_substitution_factor*100:.0f}% of demand "
-            f"for the target material will be offset by substitution in the calculation.</p>",
-            unsafe_allow_html=True
-        )
-
-    st.divider()
-
-    # ── Section 6: CE Summary KPIs ────────────────────────────────────────────
-    st.subheader("6. CE Strategy Summary")
-    ce_cols = st.columns(4)
-    ce_cols[0].metric("Reuse Rate", f"{ce_reuse_rate:.1f}%")
-    ce_cols[1].metric("Remanufacturing Rate", f"{ce_remanufacturing_rate:.1f}%")
-    ce_cols[2].metric("Urban Mining Rate", f"{ce_urban_mining_rate:.1f}%")
-    ce_cols[3].metric("Substitution Factor", f"{ce_substitution_factor*100:.0f}%")
-
-    # Circularity index (simple composite)
-    circularity_index = (
-        0.30 * (ce_reuse_rate / 100) +
-        0.25 * (ce_remanufacturing_rate / 100) +
-        0.25 * (ce_urban_mining_rate / 100) +
-        0.20 * ce_substitution_factor
-    ) * 100
-    st.markdown(
-        f"""
-        <div style='background-color:#a5d6a7;padding:12px 18px;border-radius:8px;margin-top:8px;'>
-        <span style='font-size:16px;font-weight:bold;color:#1b5e20;'>
-        🌱 Composite Circularity Index: {circularity_index:.1f} / 100
-        </span><br>
-        <span style='font-size:12px;color:#2e7d32;'>
-        Weighted score across all CE strategies (indicative only).
-        </span>
-        </div>
-        """, unsafe_allow_html=True
-    )
-
-    st.divider()
-
-    # ── Save ──────────────────────────────────────────────────────────────────
-    if st.button("Save CE Inputs"):
-        st.session_state.input["ce_enabled"]              = ce_enabled
-        st.session_state.input["ce_reuse_rate"]           = ce_reuse_rate
-        st.session_state.input["ce_lifetime_extension"]   = ce_lifetime_extension
-        st.session_state.input["ce_remanufacturing_rate"] = ce_remanufacturing_rate
-        st.session_state.input["ce_urban_mining_rate"]    = ce_urban_mining_rate
-        st.session_state.input["ce_urban_mining_stock"]   = ce_urban_mining_stock
-        st.session_state.input["ce_substitution_factor"]  = ce_substitution_factor
-        st.session_state.save_ce = True
-        st.write(
-            '<p style="color:#2e7d32;font-size:18px;font-weight:bold;">✅ CE data saved</p>',
-            unsafe_allow_html=True
-        )
-
-    st.markdown(
-        """
-        <hr>
-        <p style='font-size:12px;color:#555;'>
-        <b>Note:</b> CE adjustments modify supply and demand passed to the system dynamics model.
-        Reuse and remanufacturing reduce new PV material demand. Urban mining adds to total supply.
-        Substitution scales down demand for the target metal. These are applied proportionally each
-        year of the study period. Results are visible in <b>Calculate Results</b> and <b>Plot Results</b>
-        when CE is enabled.
-        </p>
-        """, unsafe_allow_html=True
-    )
-
-# ── End Circular Economy page ─────────────────────────────────────────────────
-
 # Page 5: Modelling Inputs Review
 if page == "Modelling Inputs Review":
     st.header("Modelling Inputs Review", divider = 'grey')
@@ -1862,35 +1672,9 @@ if page == "Calculate Results":
         MD = np.zeros([n_years, 5])
         MP = np.zeros([n_years, 4])
 
-        # ── CE pre-processing ────────────────────────────────────────────────
-        ce_on               = bool(data.get("ce_enabled", False))
-        ce_reuse            = float(data.get("ce_reuse_rate", 0.0))           / 100.0
-        ce_remfg            = float(data.get("ce_remanufacturing_rate", 0.0)) / 100.0
-        ce_urban_rate       = float(data.get("ce_urban_mining_rate", 0.0))    / 100.0
-        ce_urban_stock      = float(data.get("ce_urban_mining_stock", 0.0))
-        ce_sub              = float(data.get("ce_substitution_factor", 0.0))
-        ce_life_ext         = int(data.get("ce_lifetime_extension", 0))
-
-        # demand reduction multiplier: reuse + remanufacturing + substitution
-        ce_demand_mult = 1.0
-        if ce_on:
-            ce_demand_mult = max(0.0, 1.0 - ce_reuse - ce_remfg - ce_sub)
-
-        # annual urban mining supply addition (tonnes/yr)
-        ce_urban_annual = (ce_urban_stock * ce_urban_rate) if ce_on else 0.0
-
-        # adjusted panel lifetime
-        base_lifetime = data.get("newpv_panel_lifetime", 25)
-        adj_lifetime  = base_lifetime + (ce_life_ext if ce_on else 0)
-        # ─────────────────────────────────────────────────────────────────────
-
 
         for year in range(start_year, end_year + 1):
             ind = year - start_year
-
-            # CE-adjusted inputs for this year
-            adj_material_intensity = data["pv_material_intensity"][ind] * ce_demand_mult
-            adj_nonpv_demand       = data["nonpv_demand"] * ce_demand_mult
 
             output = model.run(params={"Time":year,
                                        "PV Future Production User Input": data["pv_user_input"],
@@ -1901,11 +1685,11 @@ if page == "Calculate Results":
                                        "PV Deployment Initial Incremental User Input":data["pv_initial_incremental2"],
                                        "Current Annual PV Deployment User Input":data["pv_annual_deployment2"],
                                        "PV Technology Market Share":data["pv_market_share"][ind],
-                                       "PV Technology Material Intensity":adj_material_intensity,
-                                       "Current nonPV demand":adj_nonpv_demand,
+                                       "PV Technology Material Intensity":data["pv_material_intensity"][ind],
+                                       "Current nonPV demand":data["nonpv_demand"],
                                        "NPVGR":data["nonpv_demand_gr"],
                                        "New PV Recycling Estimation Method": data["newpv_lifetime_option"],
-                                       "Average PV Lifetime":adj_lifetime,
+                                       "Average PV Lifetime":data["newpv_panel_lifetime"],
                                        "Recycling efficiency":data["newpv_recycling_efficiency"],
                                        "Collection efficiency":data["newpv_recycling_collection_efficiency"],
                                        "Percentage Panels Recycled":data["newpv_percentage_panels_recycled"],
@@ -1921,12 +1705,11 @@ if page == "Calculate Results":
                                        "ExPV Material Intensity Annual":convert_xr(start_year,data["pv_annual_mint"]),
                                        "ExPV Material Intensity Constant":data["pv_avg_mint"],
                                        "Direct Mining Estimation Method User Input":data["supply_option"],
-                                       # Fix: convert mine_data DataFrame column to xarray; fallback to zeros if not set
-                                       "Direct Mining Supply Manual": convert_xr(
-                                           start_year,
-                                           data["mine_data"]["Annual production (tonnes)"].values
+                                       # Pass raw Series — the pysd model wraps it internally with StudyPeriod dims
+                                       "Direct Mining Supply Manual": (
+                                           data["mine_data"]["Annual production (tonnes)"]
                                            if isinstance(data["mine_data"], pd.DataFrame) and len(data["mine_data"]) > 0
-                                           else np.zeros(end_year - start_year + 1)
+                                           else pd.Series(np.zeros(end_year - start_year + 1))
                                        ),
                                        "Direct Mining Reserves User Input":data["global_reserves"],
                                        # Fix: these two params were swapped — current production goes to "Current DM GR",
@@ -1999,8 +1782,6 @@ if page == "Calculate Results":
                           "Material Price",
                           "PV Technology material intensity"]
             MS[ind,:-1] = output.loc[year-start_year+2023,columns_MS].values
-            # Add urban mining to direct mining supply column
-            MS[ind, 3]  += ce_urban_annual
             MS[ind,-1] = np.sum(MS[ind,:-1])
             MD[ind,:-1] = output.loc[year-start_year+2023,columns_MD].values
             MD[ind,-1] = np.sum(MD[ind,2:4])
@@ -2031,24 +1812,10 @@ if page == "Calculate Results":
         st.session_state.output["MD"] = MD_output
         st.session_state.output["MP"] = MP_output
         st.session_state.output["output"] = pd.DataFrame(output)
-        st.session_state.output["ce_was_on"] = ce_on
 
         
     if st.session_state["Cal"] == 1:
         st.write("Results")
-        if st.session_state.output.get("ce_was_on", False):
-            st.markdown(
-                "<div style='background-color:#a5d6a7;padding:8px 14px;border-radius:6px;margin-bottom:8px;'>"
-                "🌱 <b>Circular Economy adjustments were active</b> during this calculation.</div>",
-                unsafe_allow_html=True
-            )
-        else:
-            st.markdown(
-                "<div style='background-color:#fff9c4;padding:8px 14px;border-radius:6px;margin-bottom:8px;'>"
-                "⚠️ Circular Economy adjustments were <b>not applied</b>. "
-                "Enable them on the <b>Circular Economy</b> page.</div>",
-                unsafe_allow_html=True
-            )
         
         button2 = st.button("Material Supply", use_container_width=True)
         if button2:
@@ -2198,6 +1965,130 @@ if page == "Plot Results":
             fig3.update_traces(hovertemplate="Year: %{x}, Value: %{y}")
             fig3.update_xaxes(type='category', categoryorder='array', categoryarray=data3.index)
             st.plotly_chart(fig3, use_container_width=True)
+
+        # ── Circular Economy Insight Panel ────────────────────────────────────
+        st.divider()
+        st.markdown(
+            """
+            <div style='background-color:#c8e6c9;border-left:6px solid #2e7d32;
+                        padding:14px 18px;border-radius:8px;margin-bottom:10px;'>
+            <span style='font-size:19px;font-weight:bold;color:#1b5e20;'>
+            ♻️ Circular Economy (CE) — What It Means for This Model
+            </span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <p style='font-size:14px;line-height:1.7;'>
+            A <b>Circular Economy</b> keeps materials in use for as long as possible, extracts maximum
+            value from them while in use, and recovers and regenerates materials at the end of each
+            service life — instead of the traditional linear <em>take → make → dispose</em> model.
+            </p>
+            <p style='font-size:14px;line-height:1.7;'>
+            For critical PV materials (e.g. Tellurium, Indium, Gallium), CE strategies directly address
+            the supply constraints visible in the graphs above through the following hierarchy:
+            </p>
+            """, unsafe_allow_html=True)
+
+        ce_col1, ce_col2 = st.columns(2)
+        with ce_col1:
+            st.markdown(
+                """
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>1 — Reuse</b><br>
+                <span style='font-size:13px;'>
+                Functional panels or components are redeployed without reprocessing.
+                This is the highest-value CE strategy because it preserves embodied energy
+                and delays the need for new material extraction entirely.
+                </span>
+                </div>
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>2 — Remanufacturing</b><br>
+                <span style='font-size:13px;'>
+                End-of-life panels are restored to original specification and re-enter
+                the market. Reduces demand for virgin material while retaining the
+                value of processed components.
+                </span>
+                </div>
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>3 — Recycling</b><br>
+                <span style='font-size:13px;'>
+                Already captured in this model's recycling supply streams (new &amp; existing PV).
+                Material is recovered from end-of-life panels and re-enters the production chain.
+                </span>
+                </div>
+                """, unsafe_allow_html=True)
+        with ce_col2:
+            st.markdown(
+                """
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>4 — Urban Mining</b><br>
+                <span style='font-size:13px;'>
+                Critical metals are recovered from legacy electronics, industrial waste,
+                and above-ground material stocks. As primary reserves deplete, urban
+                mining becomes an increasingly important secondary supply source.
+                </span>
+                </div>
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>5 — Material Substitution</b><br>
+                <span style='font-size:13px;'>
+                Replacing scarce target metals with alternatives in PV technology
+                (e.g. reducing Te content in CdTe cells) directly lowers material
+                intensity and extends the runway of available reserves.
+                </span>
+                </div>
+                <div style='background-color:#f1f8e9;border-radius:8px;padding:12px;margin-bottom:8px;'>
+                <b style='color:#2e7d32;'>6 — Design for Circularity</b><br>
+                <span style='font-size:13px;'>
+                Panels designed for disassembly make end-of-life recovery easier and
+                cheaper, improving the collection efficiency and recycling yield
+                parameters already present in this model.
+                </span>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # ── Dynamic alert: global stocks falling ─────────────────────────────
+        if st.session_state["Cal"] == 1:
+            mp_data = st.session_state.output["MP"]
+            stocks = mp_data["Global Stocks (tonnes)"].values
+            if len(stocks) >= 2 and stocks[-1] < stocks[0]:
+                pct_drop = (stocks[0] - stocks[-1]) / max(stocks[0], 1) * 100
+                st.markdown(
+                    f"""
+                    <div style='background-color:#fff3e0;border-left:6px solid #e65100;
+                                padding:14px 18px;border-radius:8px;margin-top:10px;'>
+                    <b style='color:#bf360c;font-size:15px;'>
+                    ⚠️ Global Stocks are declining ({pct_drop:.1f}% drop over study period)
+                    </b><br>
+                    <span style='font-size:13px;color:#4e342e;'>
+                    Your results show that global material stocks are being drawn down.
+                    This is a strong signal to accelerate <b>Circular Economy strategies</b>:
+                    <br><br>
+                    &nbsp;&nbsp;• <b>Increase panel reuse rates</b> — every reused panel avoids new material demand<br>
+                    &nbsp;&nbsp;• <b>Improve recycling collection efficiency</b> (currently set in Material Supply)<br>
+                    &nbsp;&nbsp;• <b>Invest in urban mining</b> to recover material from the growing installed base<br>
+                    &nbsp;&nbsp;• <b>Reduce material intensity</b> through technology improvement or substitution<br>
+                    <br>
+                    Together these measures can extend the viability of the supply chain well beyond
+                    the business-as-usual trajectory shown in the charts above.
+                    </span>
+                    </div>
+                    """, unsafe_allow_html=True)
+            elif len(stocks) >= 2:
+                st.markdown(
+                    """
+                    <div style='background-color:#e8f5e9;border-left:6px solid #2e7d32;
+                                padding:12px 18px;border-radius:8px;margin-top:10px;'>
+                    <b style='color:#1b5e20;font-size:14px;'>
+                    ✅ Global Stocks are stable or growing in this scenario.
+                    </b><br>
+                    <span style='font-size:13px;color:#2e7d32;'>
+                    Circular Economy strategies such as reuse, improved recycling, and urban mining
+                    can further extend this positive trajectory and reduce dependence on primary mining.
+                    </span>
+                    </div>
+                    """, unsafe_allow_html=True)
 
 
 dashboard = Dashboard()
