@@ -370,6 +370,66 @@ if "MD" not in st.session_state.output:
     st.session_state.output["MD"]= ""
 if "MP" not in st.session_state.output:
     st.session_state.output["MP"]= ""
+# Missing defaults that caused KeyError in Calculate Results
+if "target_metal_price" not in st.session_state.input:
+    st.session_state.input["target_metal_price"] = 0.0
+if "supply_gap_delay" not in st.session_state.input:
+    st.session_state.input["supply_gap_delay"] = 0
+if "supply_gap_eq_degree" not in st.session_state.input:
+    st.session_state.input["supply_gap_eq_degree"] = 1
+if "supply_gap_eq_a" not in st.session_state.input:
+    st.session_state.input["supply_gap_eq_a"] = 0
+if "supply_gap_eq_b" not in st.session_state.input:
+    st.session_state.input["supply_gap_eq_b"] = 0
+if "supply_gap_eq_c" not in st.session_state.input:
+    st.session_state.input["supply_gap_eq_c"] = 0
+if "supply_gap_eq_d" not in st.session_state.input:
+    st.session_state.input["supply_gap_eq_d"] = 0
+if "pv_price_threshold" not in st.session_state.input:
+    st.session_state.input["pv_price_threshold"] = 0.0
+if "pv_tech_price" not in st.session_state.input:
+    st.session_state.input["pv_tech_price"] = 0.0
+if "global_stocks" not in st.session_state.input:
+    st.session_state.input["global_stocks"] = 7500.0
+if "mine_data" not in st.session_state.input:
+    st.session_state.input["mine_data"] = pd.DataFrame({"Year": [], "Annual production (tonnes)": []})
+if "nonpv_demand" not in st.session_state.input:
+    st.session_state.input["nonpv_demand"] = 0.0
+if "nonpv_demand_gr" not in st.session_state.input:
+    st.session_state.input["nonpv_demand_gr"] = 0.0
+if "pv_market_share" not in st.session_state.input:
+    st.session_state.input["pv_market_share"] = np.zeros(1)
+if "pv_material_intensity" not in st.session_state.input:
+    st.session_state.input["pv_material_intensity"] = np.zeros(1)
+if "annual_incremental_capacity1" not in st.session_state.input:
+    st.session_state.input["annual_incremental_capacity1"] = 0
+if "annual_incremental_capacity2" not in st.session_state.input:
+    st.session_state.input["annual_incremental_capacity2"] = 0
+if "pv_initial_incremental1" not in st.session_state.input:
+    st.session_state.input["pv_initial_incremental1"] = 0
+if "pv_annual_deployment1" not in st.session_state.input:
+    st.session_state.input["pv_annual_deployment1"] = 0
+if "pv_initial_incremental2" not in st.session_state.input:
+    st.session_state.input["pv_initial_incremental2"] = 0
+if "pv_annual_deployment2" not in st.session_state.input:
+    st.session_state.input["pv_annual_deployment2"] = 0
+if "pv_user_input" not in st.session_state.input:
+    st.session_state.input["pv_user_input"] = 1
+# Circular Economy defaults
+if "ce_reuse_rate" not in st.session_state.input:
+    st.session_state.input["ce_reuse_rate"] = 0.0
+if "ce_remanufacturing_rate" not in st.session_state.input:
+    st.session_state.input["ce_remanufacturing_rate"] = 0.0
+if "ce_urban_mining_rate" not in st.session_state.input:
+    st.session_state.input["ce_urban_mining_rate"] = 0.0
+if "ce_urban_mining_stock" not in st.session_state.input:
+    st.session_state.input["ce_urban_mining_stock"] = 0.0
+if "ce_substitution_factor" not in st.session_state.input:
+    st.session_state.input["ce_substitution_factor"] = 0.0
+if "ce_lifetime_extension" not in st.session_state.input:
+    st.session_state.input["ce_lifetime_extension"] = 0
+if "ce_enabled" not in st.session_state.input:
+    st.session_state.input["ce_enabled"] = False
 #New    
 init_tracking()
 #End
@@ -385,7 +445,7 @@ with st.sidebar:
     st.image("msu_logo.png")
 st.sidebar.title("Material Availability Assessment Dashboard")
 #"Home"
-page = st.sidebar.selectbox("Dashboard Navigation", ["Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
+page = st.sidebar.selectbox("Dashboard Navigation", ["Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Circular Economy", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
 
 #Change (1 line)
 track_page(page)
@@ -394,6 +454,7 @@ st.sidebar.subheader("Project Description")
 st.sidebar.subheader("Material Supply")
 st.sidebar.subheader("Material Demand")
 st.sidebar.subheader("Supply Gap and Price Effect")
+st.sidebar.subheader("Circular Economy")
 st.sidebar.subheader("Modelling Inputs Review")
 st.sidebar.subheader("Calculate Results")
 st.sidebar.subheader("Plot Results")
@@ -1186,6 +1247,195 @@ if page == "Supply Gap and Price Effect":
         st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
 
 
+
+# ── Page: Circular Economy ────────────────────────────────────────────────────
+if page == "Circular Economy":
+    st.header("Circular Economy (CE) Assessment", divider='grey')
+
+    st.markdown(
+        """
+        <p style='font-size:15px;'>
+        The <b>Circular Economy</b> module lets you model how CE strategies reduce primary material demand
+        and increase secondary supply. Inputs here are applied on top of your base-case scenario during
+        <b>Calculate Results</b> when CE is enabled.
+        </p>
+        """, unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <div style='background-color:#c8e6c9;border-left:5px solid #2e7d32;padding:10px 16px;border-radius:6px;margin-bottom:12px'>
+        <b>🔄 CE Hierarchy applied (highest to lowest priority):</b><br>
+        Reuse → Remanufacturing → Recycling (already in base model) → Urban Mining → Material Substitution
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ── Section 1: Enable CE ──────────────────────────────────────────────────
+    st.subheader("1. Enable Circular Economy Adjustments")
+    ce_enabled = st.toggle(
+        "Apply CE adjustments in calculations",
+        value=bool(st.session_state.input.get("ce_enabled", False))
+    )
+
+    st.divider()
+
+    # ── Section 2: Reuse ──────────────────────────────────────────────────────
+    st.subheader("2. Panel Reuse")
+    st.markdown(
+        "Reuse extends the service life of functional PV panels without reprocessing, "
+        "directly reducing both new demand and end-of-life waste."
+    )
+    col1, col2 = st.columns(2)
+    ce_reuse_rate = col1.number_input(
+        "Panel reuse rate (% of end-of-life panels reused)",
+        min_value=0.0, max_value=100.0, step=0.1,
+        value=float(st.session_state.input.get("ce_reuse_rate", 0.0)),
+        help="Panels reused are removed from the waste stream and do not trigger new demand."
+    )
+    ce_lifetime_extension = col2.number_input(
+        "Lifetime extension from reuse (additional years)",
+        min_value=0, max_value=30, step=1,
+        value=int(st.session_state.input.get("ce_lifetime_extension", 0)),
+        help="How many extra years a reused panel operates before final disposal."
+    )
+
+    # Live impact preview
+    if ce_reuse_rate > 0:
+        base_demand = st.session_state.input.get("nonpv_demand", 0)
+        est_reduction = base_demand * (ce_reuse_rate / 100) * 0.6   # rough factor
+        st.markdown(
+            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ At {ce_reuse_rate:.1f}% reuse, "
+            f"estimated annual demand reduction ≈ <b>{est_reduction:,.1f} tonnes</b> (indicative).</p>",
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
+    # ── Section 3: Remanufacturing ────────────────────────────────────────────
+    st.subheader("3. Remanufacturing")
+    st.markdown(
+        "Remanufacturing restores used panels or components to original performance specs. "
+        "It recovers more value than recycling but requires less virgin material than new production."
+    )
+    ce_remanufacturing_rate = st.number_input(
+        "Remanufacturing rate (% of collected end-of-life panels remanufactured)",
+        min_value=0.0, max_value=100.0, step=0.1,
+        value=float(st.session_state.input.get("ce_remanufacturing_rate", 0.0)),
+        help="Remanufactured panels re-enter the supply chain, reducing demand for new panels."
+    )
+
+    st.divider()
+
+    # ── Section 4: Urban Mining ───────────────────────────────────────────────
+    st.subheader("4. Urban Mining")
+    st.markdown(
+        "Urban mining recovers critical materials from legacy installed PV fleets, "
+        "electronics, and industrial waste streams — supplementing primary supply."
+    )
+    col3, col4 = st.columns(2)
+    ce_urban_mining_rate = col3.number_input(
+        "Urban mining recovery rate (% of legacy stock recovered annually)",
+        min_value=0.0, max_value=100.0, step=0.1,
+        value=float(st.session_state.input.get("ce_urban_mining_rate", 0.0)),
+        help="Material recovered through urban mining is added to total supply."
+    )
+    ce_urban_mining_stock = col4.number_input(
+        "Estimated recoverable urban stock (tonnes)",
+        min_value=0.0, step=1.0,
+        value=float(st.session_state.input.get("ce_urban_mining_stock", 0.0)),
+        help="Total material available in the urban mine (above-ground stocks)."
+    )
+
+    if ce_urban_mining_rate > 0 and ce_urban_mining_stock > 0:
+        annual_urban = ce_urban_mining_stock * (ce_urban_mining_rate / 100)
+        st.markdown(
+            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ Estimated annual urban mining supply: "
+            f"<b>{annual_urban:,.1f} tonnes/year</b>.</p>",
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
+    # ── Section 5: Material Substitution ─────────────────────────────────────
+    st.subheader("5. Material Substitution")
+    st.markdown(
+        "Substitution replaces the target material with an alternative, reducing total demand. "
+        "A factor of 0.2 means 20% of demand is met by a substitute."
+    )
+    ce_substitution_factor = st.slider(
+        "Substitution factor (fraction of demand met by alternative material)",
+        min_value=0.0, max_value=1.0, step=0.01,
+        value=float(st.session_state.input.get("ce_substitution_factor", 0.0)),
+        help="0 = no substitution; 1 = full substitution (target material no longer needed)."
+    )
+    if ce_substitution_factor > 0:
+        st.markdown(
+            f"<p style='color:#2e7d32;font-size:13px;'>ℹ️ {ce_substitution_factor*100:.0f}% of demand "
+            f"for the target material will be offset by substitution in the calculation.</p>",
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
+    # ── Section 6: CE Summary KPIs ────────────────────────────────────────────
+    st.subheader("6. CE Strategy Summary")
+    ce_cols = st.columns(4)
+    ce_cols[0].metric("Reuse Rate", f"{ce_reuse_rate:.1f}%")
+    ce_cols[1].metric("Remanufacturing Rate", f"{ce_remanufacturing_rate:.1f}%")
+    ce_cols[2].metric("Urban Mining Rate", f"{ce_urban_mining_rate:.1f}%")
+    ce_cols[3].metric("Substitution Factor", f"{ce_substitution_factor*100:.0f}%")
+
+    # Circularity index (simple composite)
+    circularity_index = (
+        0.30 * (ce_reuse_rate / 100) +
+        0.25 * (ce_remanufacturing_rate / 100) +
+        0.25 * (ce_urban_mining_rate / 100) +
+        0.20 * ce_substitution_factor
+    ) * 100
+    st.markdown(
+        f"""
+        <div style='background-color:#a5d6a7;padding:12px 18px;border-radius:8px;margin-top:8px;'>
+        <span style='font-size:16px;font-weight:bold;color:#1b5e20;'>
+        🌱 Composite Circularity Index: {circularity_index:.1f} / 100
+        </span><br>
+        <span style='font-size:12px;color:#2e7d32;'>
+        Weighted score across all CE strategies (indicative only).
+        </span>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
+    st.divider()
+
+    # ── Save ──────────────────────────────────────────────────────────────────
+    if st.button("Save CE Inputs"):
+        st.session_state.input["ce_enabled"]              = ce_enabled
+        st.session_state.input["ce_reuse_rate"]           = ce_reuse_rate
+        st.session_state.input["ce_lifetime_extension"]   = ce_lifetime_extension
+        st.session_state.input["ce_remanufacturing_rate"] = ce_remanufacturing_rate
+        st.session_state.input["ce_urban_mining_rate"]    = ce_urban_mining_rate
+        st.session_state.input["ce_urban_mining_stock"]   = ce_urban_mining_stock
+        st.session_state.input["ce_substitution_factor"]  = ce_substitution_factor
+        st.session_state.save_ce = True
+        st.write(
+            '<p style="color:#2e7d32;font-size:18px;font-weight:bold;">✅ CE data saved</p>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown(
+        """
+        <hr>
+        <p style='font-size:12px;color:#555;'>
+        <b>Note:</b> CE adjustments modify supply and demand passed to the system dynamics model.
+        Reuse and remanufacturing reduce new PV material demand. Urban mining adds to total supply.
+        Substitution scales down demand for the target metal. These are applied proportionally each
+        year of the study period. Results are visible in <b>Calculate Results</b> and <b>Plot Results</b>
+        when CE is enabled.
+        </p>
+        """, unsafe_allow_html=True
+    )
+
+# ── End Circular Economy page ─────────────────────────────────────────────────
+
 # Page 5: Modelling Inputs Review
 if page == "Modelling Inputs Review":
     st.header("Modelling Inputs Review", divider = 'grey')
@@ -1606,18 +1856,42 @@ if page == "Calculate Results":
         data = st.session_state["input"]
     # Add content for Calculate Results page
         start_year = data["project_starting_year"]
-        end_year = data["project_final_year"]
-        MS = np.zeros([end_year-start_year+1,5])
-        MD = np.zeros([end_year-start_year+1,5])
-        MP = np.zeros([end_year-start_year+1,4])
+        end_year   = data["project_final_year"]
+        n_years    = end_year - start_year + 1
+        MS = np.zeros([n_years, 5])
+        MD = np.zeros([n_years, 5])
+        MP = np.zeros([n_years, 4])
+
+        # ── CE pre-processing ────────────────────────────────────────────────
+        ce_on               = bool(data.get("ce_enabled", False))
+        ce_reuse            = float(data.get("ce_reuse_rate", 0.0))           / 100.0
+        ce_remfg            = float(data.get("ce_remanufacturing_rate", 0.0)) / 100.0
+        ce_urban_rate       = float(data.get("ce_urban_mining_rate", 0.0))    / 100.0
+        ce_urban_stock      = float(data.get("ce_urban_mining_stock", 0.0))
+        ce_sub              = float(data.get("ce_substitution_factor", 0.0))
+        ce_life_ext         = int(data.get("ce_lifetime_extension", 0))
+
+        # demand reduction multiplier: reuse + remanufacturing + substitution
+        ce_demand_mult = 1.0
+        if ce_on:
+            ce_demand_mult = max(0.0, 1.0 - ce_reuse - ce_remfg - ce_sub)
+
+        # annual urban mining supply addition (tonnes/yr)
+        ce_urban_annual = (ce_urban_stock * ce_urban_rate) if ce_on else 0.0
+
+        # adjusted panel lifetime
+        base_lifetime = data.get("newpv_panel_lifetime", 25)
+        adj_lifetime  = base_lifetime + (ce_life_ext if ce_on else 0)
+        # ─────────────────────────────────────────────────────────────────────
 
 
         for year in range(start_year, end_year + 1):
-            ind = year-start_year
-            #test
-            #st.write(data["pv_capacity"][0])
-            #st.write(data["pv_user_input"])
-            #st.write(st.session_state.input["annual_incremental_capacity"])
+            ind = year - start_year
+
+            # CE-adjusted inputs for this year
+            adj_material_intensity = data["pv_material_intensity"][ind] * ce_demand_mult
+            adj_nonpv_demand       = data["nonpv_demand"] * ce_demand_mult
+
             output = model.run(params={"Time":year,
                                        "PV Future Production User Input": data["pv_user_input"],
                                        "Planned Annual Incremental Capacity":convert_xr(start_year,data["annual_incremental_capacity1"]),
@@ -1627,11 +1901,11 @@ if page == "Calculate Results":
                                        "PV Deployment Initial Incremental User Input":data["pv_initial_incremental2"],
                                        "Current Annual PV Deployment User Input":data["pv_annual_deployment2"],
                                        "PV Technology Market Share":data["pv_market_share"][ind],
-                                       "PV Technology Material Intensity":data["pv_material_intensity"][ind],
-                                       "Current nonPV demand":data["nonpv_demand"],
+                                       "PV Technology Material Intensity":adj_material_intensity,
+                                       "Current nonPV demand":adj_nonpv_demand,
                                        "NPVGR":data["nonpv_demand_gr"],
                                        "New PV Recycling Estimation Method": data["newpv_lifetime_option"],
-                                       "Average PV Lifetime":data["newpv_panel_lifetime"],
+                                       "Average PV Lifetime":adj_lifetime,
                                        "Recycling efficiency":data["newpv_recycling_efficiency"],
                                        "Collection efficiency":data["newpv_recycling_collection_efficiency"],
                                        "Percentage Panels Recycled":data["newpv_percentage_panels_recycled"],
@@ -1647,12 +1921,18 @@ if page == "Calculate Results":
                                        "ExPV Material Intensity Annual":convert_xr(start_year,data["pv_annual_mint"]),
                                        "ExPV Material Intensity Constant":data["pv_avg_mint"],
                                        "Direct Mining Estimation Method User Input":data["supply_option"],
-                                       ### may have some errors
-                                       "Direct Mining Supply Manual":data["mine_data"]["Annual production (tonnes)"],
-                                       ###
+                                       # Fix: convert mine_data DataFrame column to xarray; fallback to zeros if not set
+                                       "Direct Mining Supply Manual": convert_xr(
+                                           start_year,
+                                           data["mine_data"]["Annual production (tonnes)"].values
+                                           if isinstance(data["mine_data"], pd.DataFrame) and len(data["mine_data"]) > 0
+                                           else np.zeros(end_year - start_year + 1)
+                                       ),
                                        "Direct Mining Reserves User Input":data["global_reserves"],
-                                       "Current DM GR":data["global_production"],
-                                       "Direct mining current production User Input":data["direct_mining_growth"],
+                                       # Fix: these two params were swapped — current production goes to "Current DM GR",
+                                       # growth rate goes to "Direct mining current production User Input"
+                                       "Current DM GR":data["direct_mining_growth"],
+                                       "Direct mining current production User Input":data["global_production"],
                                        "Byproduction Estimation Method User Input":data["bp_reserve_option"],
                                        "byproduction supply User Input":data["bp_current_supply"],
                                        "current byproduction Growth Rate":data["bp_supply_growth"],
@@ -1719,6 +1999,8 @@ if page == "Calculate Results":
                           "Material Price",
                           "PV Technology material intensity"]
             MS[ind,:-1] = output.loc[year-start_year+2023,columns_MS].values
+            # Add urban mining to direct mining supply column
+            MS[ind, 3]  += ce_urban_annual
             MS[ind,-1] = np.sum(MS[ind,:-1])
             MD[ind,:-1] = output.loc[year-start_year+2023,columns_MD].values
             MD[ind,-1] = np.sum(MD[ind,2:4])
@@ -1749,10 +2031,24 @@ if page == "Calculate Results":
         st.session_state.output["MD"] = MD_output
         st.session_state.output["MP"] = MP_output
         st.session_state.output["output"] = pd.DataFrame(output)
+        st.session_state.output["ce_was_on"] = ce_on
 
         
     if st.session_state["Cal"] == 1:
         st.write("Results")
+        if st.session_state.output.get("ce_was_on", False):
+            st.markdown(
+                "<div style='background-color:#a5d6a7;padding:8px 14px;border-radius:6px;margin-bottom:8px;'>"
+                "🌱 <b>Circular Economy adjustments were active</b> during this calculation.</div>",
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                "<div style='background-color:#fff9c4;padding:8px 14px;border-radius:6px;margin-bottom:8px;'>"
+                "⚠️ Circular Economy adjustments were <b>not applied</b>. "
+                "Enable them on the <b>Circular Economy</b> page.</div>",
+                unsafe_allow_html=True
+            )
         
         button2 = st.button("Material Supply", use_container_width=True)
         if button2:
@@ -1821,98 +2117,87 @@ if page == "Calculate Results":
 # Page 8: Plot Results
 if page == "Plot Results":
     st.header("Plot Results", divider='grey')
-    op1 = st.checkbox(" Material Supply") 
-    op2 = st.checkbox(" Material Demand")
-    op3 = st.checkbox(" Material Price and Availability")
 
-    if op1:
-        data1 = st.session_state.output["MS"]
-        metrics = [
-            "Recycled materials from new solar panels (tonnes)",
-            "Recycled materials from existing solar panels (tonnes)",
-            "Supply from by-production (tonnes)",
-            "Supply from direct mining (tonnes)",
-            "Total Supply (tonnes)",
-        ]
+    if st.session_state["Cal"] != 1:
+        st.info("No results yet. Please go to **Calculate Results** and click **Calculate** first.")
+    else:
+        op1 = st.checkbox(" Material Supply") 
+        op2 = st.checkbox(" Material Demand")
+        op3 = st.checkbox(" Material Price and Availability")
 
-        st.subheader("Material Supply")
-        selected_metric = st.selectbox("Select a metric:", metrics)
+        if op1:
+            data1 = st.session_state.output["MS"]
+            metrics = [
+                "Recycled materials from new solar panels (tonnes)",
+                "Recycled materials from existing solar panels (tonnes)",
+                "Supply from by-production (tonnes)",
+                "Supply from direct mining (tonnes)",
+                "Total Supply (tonnes)",
+            ]
 
+            st.subheader("Material Supply")
+            selected_metric = st.selectbox("Select a metric:", metrics, key="ms_metric")
 
-        fig1 = px.line(
-            data1,
-            x=data1.index,
-            y=selected_metric,
-            labels={"x": "Year", "y": "Value"}
-        )
+            fig1 = px.line(
+                data1,
+                x=data1.index,
+                y=selected_metric,
+                labels={"x": "Year", "y": "Value"}
+            )
+            fig1.update_xaxes(title="Year", tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig1.update_yaxes(tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig1.update_traces(hovertemplate="Year: %{x}, Value: %{y}")
+            fig1.update_xaxes(type='category', categoryorder='array', categoryarray=data1.index)
+            st.plotly_chart(fig1, use_container_width=True)
 
-        # Update x and y-axis titles to be bold and black
-        fig1.update_xaxes(title = "Year", tickfont_color= "#000000", title_font_color="#000000", title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size=15)
-        fig1.update_yaxes(tickfont_color= "#000000", title_font_color="#000000",  title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size= 15)
-        #fig1.update_xaxes(title_font_family="Arial", color = "black", font=dict(size=50))
-        hover_template = "Year: %{x}, Value: %{y}"
-        fig1.update_traces(hovertemplate=hover_template)
-        fig1.update_xaxes(type='category', categoryorder='array', categoryarray=data1.index)
-        st.plotly_chart(fig1)
+        if op2:
+            data2 = st.session_state.output["MD"]
+            metrics = [
+                "Planned PV Demand (GW)",
+                "Actual PV Demand (GW)",
+                "Annual PV material demand (tonnes)",
+                "Annual Non-PV material demand (tonnes)",
+                "Total Demand (tonnes)",
+            ]
 
-    if op2:
-        data2 = st.session_state.output["MD"]
-        metrics = [
-            "Planned PV Demand (GW)",
-            "Actual PV Demand (GW)",
-            "Annual PV material demand (tonnes)",
-            "Annual Non-PV material demand (tonnes)",
-            "Total Demand (tonnes)",
-        ]
+            st.subheader("Material Demand")
+            selected_metric = st.selectbox("Select a metric:", metrics, key="md_metric")
 
-        st.subheader("Material Demand")
-        selected_metric = st.selectbox("Select a metric:", metrics)
+            fig2 = px.line(
+                data2,
+                x=data2.index,
+                y=selected_metric,
+                labels={"x": "Year", "y": "Value"}
+            )
+            fig2.update_xaxes(title="Year", tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig2.update_yaxes(tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig2.update_traces(hovertemplate="Year: %{x}, Value: %{y}")
+            fig2.update_xaxes(type='category', categoryorder='array', categoryarray=data2.index)
+            st.plotly_chart(fig2, use_container_width=True)
 
+        if op3:
+            data3 = st.session_state.output["MP"]
+            metrics = [
+                "Global Stocks (tonnes)",
+                "Material surplus and supply gap (tonnes)",
+                "Material price ($/tonnes)",
+                "Material intensity in PV production (kg/GWp)",
+            ]
 
-        fig2 = px.line(
-            data2,
-            x=data2.index,
-            y=selected_metric,
-            labels={"x": "Year", "y": "Value"}
-        )
+            st.subheader("Material Price and Availability")
+            selected_metric = st.selectbox("Select a metric:", metrics, key="mp_metric")
 
-        # Update x and y-axis titles to be bold and black
-        fig2.update_xaxes(title = "Year", tickfont_color= "#000000", title_font_color="#000000", title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size=15)
-        fig2.update_yaxes(tickfont_color= "#000000", title_font_color="#000000",  title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size= 15)
-        #fig1.update_xaxes(title_font_family="Arial", color = "black", font=dict(size=50))
-        hover_template = "Year: %{x}, Value: %{y}"
-        fig2.update_traces(hovertemplate=hover_template)
-        fig2.update_xaxes(type='category', categoryorder='array', categoryarray=data2.index)
-        st.plotly_chart(fig2)
-
-    if op3:
-        data3 = st.session_state.output["MP"]
-        metrics = [
-            "Global Stocks (tonnes)",
-            "Material surplus and supply gap (tonnes)",
-            "Material price ($/tonnes)",
-            "Material intensity in PV production (kg/GWp)",
-        ]
-
-        st.subheader("Material Price and Availability")
-        selected_metric = st.selectbox("Select a metric:", metrics)
-
-
-        fig3 = px.line(
-            data3,
-            x=data3.index,
-            y=selected_metric,
-            labels={"x": "Year", "y": "Value"}
-        )
-
-        # Update x and y-axis titles to be bold and black
-        fig3.update_xaxes(title = "Year", tickfont_color= "#000000", title_font_color="#000000", title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size=15)
-        fig3.update_yaxes(tickfont_color= "#000000", title_font_color="#000000",  title_font_size=18, showline = True, mirror = True, ticks = 'outside', tickfont_size= 15)
-        #fig1.update_xaxes(title_font_family="Arial", color = "black", font=dict(size=50))
-        hover_template = "Year: %{x}, Value: %{y}"
-        fig3.update_traces(hovertemplate=hover_template)
-        fig3.update_xaxes(type='category', categoryorder='array', categoryarray=data3.index)
-        st.plotly_chart(fig3)
+            fig3 = px.line(
+                data3,
+                x=data3.index,
+                y=selected_metric,
+                labels={"x": "Year", "y": "Value"}
+            )
+            fig3.update_xaxes(title="Year", tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig3.update_yaxes(tickfont_color="#000000", title_font_color="#000000", title_font_size=18, showline=True, mirror=True, ticks='outside', tickfont_size=15)
+            fig3.update_traces(hovertemplate="Year: %{x}, Value: %{y}")
+            fig3.update_xaxes(type='category', categoryorder='array', categoryarray=data3.index)
+            st.plotly_chart(fig3, use_container_width=True)
 
 
 dashboard = Dashboard()
