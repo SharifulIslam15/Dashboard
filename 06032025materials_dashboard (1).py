@@ -504,7 +504,7 @@ if page == "🏠 Welcome":
                        font-family:Georgia,serif;letter-spacing:0.5px;'>
                 ♻️ Circular Economy &amp; Material Availability<br>Assessment Dashboard
             </h1>
-            <p style='color:#dcedc8;font-size:16px;margin:0;font-style:italic;'>
+            <p style='color:#ffffff;font-size:16px;margin:0;font-style:italic;'>
                 A system-dynamics tool for forecasting critical PV material supply chains
             </p>
         </div>
