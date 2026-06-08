@@ -736,7 +736,7 @@ if page == "🏠 Welcome":
               <text x="38" y="412" font-size="8.5" fill="#333" font-family="Arial">Linear flow</text>
               <line x1="110" y1="408" x2="130" y2="408" stroke="#2196f3"
                     stroke-width="2" stroke-dasharray="5,3"/>
-              <text x="134" y="412" font-size="8.5" fill="#333" font-family="Arial">CE recovery loop (reduces virgin mining)</text>
+              <text x="134" y="412" font-size="8.5" fill="#333" font-family="Arial">Circular Economy</text>
             </svg>
             """, unsafe_allow_html=True)
 
