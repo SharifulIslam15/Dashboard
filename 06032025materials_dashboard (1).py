@@ -522,12 +522,7 @@ if page == "🏠 Welcome":
             CdTe solar panels. It integrates three supply streams (direct mining,
             by-product recovery, recycling) against two demand streams (PV &amp; non-PV),
             then computes global stocks, price effects, and supply gaps over your chosen
-            study horizon.
-            </p>
-            <p style='font-size:14px;line-height:1.8;'>
-            Circular Economy principles — especially panel reuse, improved recycling rates,
-            and urban mining — are embedded throughout as levers you can adjust to explore
-            alternative scenarios.
+            study period.
             </p>
             """, unsafe_allow_html=True)
 
