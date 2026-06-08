@@ -445,11 +445,12 @@ with st.sidebar:
     st.image("msu_logo.png")
 st.sidebar.title("Material Availability Assessment Dashboard")
 #"Home"
-page = st.sidebar.selectbox("Dashboard Navigation", ["Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
+page = st.sidebar.selectbox("Dashboard Navigation", ["🏠 Welcome", "Project Description","Material Supply", "Material Demand", "Supply Gap and Price Effect", "Modelling Inputs Review", "Calculate Results", "Plot Results"])
 
 #Change (1 line)
 track_page(page)
 #st.sidebar.subheader("Home")
+st.sidebar.subheader("🏠 Welcome")
 st.sidebar.subheader("Project Description")
 st.sidebar.subheader("Material Supply")
 st.sidebar.subheader("Material Demand")
@@ -487,6 +488,243 @@ if page == "Home":
 
    
 
+
+# ── Page 0: Welcome / Title Page ─────────────────────────────────────────────
+if page == "🏠 Welcome":
+
+    # ── Hero banner ──────────────────────────────────────────────────────────
+    st.markdown(
+        """
+        <div style='background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#388e3c 100%);
+                    padding:48px 36px 40px 36px;border-radius:14px;margin-bottom:24px;text-align:center;'>
+            <p style='color:#a5d6a7;font-size:15px;font-weight:600;letter-spacing:3px;
+                      text-transform:uppercase;margin:0 0 8px 0;'>Michigan State University</p>
+            <h1 style='color:#ffffff;font-size:36px;font-weight:800;margin:0 0 10px 0;
+                       line-height:1.25;'>
+                Circular Economy &amp; Material Availability<br>Assessment Dashboard
+            </h1>
+            <p style='color:#c8e6c9;font-size:16px;margin:0;'>
+                A system-dynamics tool for forecasting critical PV material supply chains
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ── What this dashboard does ─────────────────────────────────────────────
+    col_a, col_b = st.columns([1.1, 0.9])
+    with col_a:
+        st.markdown(
+            """
+            <h3 style='color:#2e7d32;margin-bottom:6px;'>What this dashboard does</h3>
+            <p style='font-size:14px;line-height:1.8;'>
+            This tool models the full supply-demand lifecycle of critical materials used
+            in photovoltaic (PV) technology — with a focus on <b>Tellurium (Te)</b> for
+            CdTe solar panels. It integrates three supply streams (direct mining,
+            by-product recovery, recycling) against two demand streams (PV &amp; non-PV),
+            then computes global stocks, price effects, and supply gaps over your chosen
+            study horizon.
+            </p>
+            <p style='font-size:14px;line-height:1.8;'>
+            Circular Economy principles — especially panel reuse, improved recycling rates,
+            and urban mining — are embedded throughout as levers you can adjust to explore
+            alternative scenarios.
+            </p>
+            """, unsafe_allow_html=True)
+
+        # ── Step-by-step instructions ────────────────────────────────────────
+        st.markdown(
+            "<h3 style='color:#2e7d32;margin-top:16px;margin-bottom:8px;'>How to use this dashboard</h3>",
+            unsafe_allow_html=True)
+
+        steps = [
+            ("1", "Project Description",
+             "Enter your project title, PV technology, target metal, and study period. "
+             "<b>Press Save</b> before moving on."),
+            ("2", "Material Supply",
+             "Configure direct mining, by-product, and recycling inputs. "
+             "<b>Press Save</b> when done."),
+            ("3", "Material Demand",
+             "Set PV production, market share, material intensity, and non-PV demand. "
+             "<b>Press Save</b> when done."),
+            ("4", "Supply Gap &amp; Price Effect",
+             "Define global stocks and price response parameters. "
+             "<b>Press Save</b> when done."),
+            ("5", "Modelling Inputs Review",
+             "Review all your inputs in one place before running the model."),
+            ("6", "Calculate Results",
+             "Click <b>Calculate</b> to run the system-dynamics model."),
+            ("7", "Plot Results",
+             "Visualise supply, demand, stocks, and price — and read the "
+             "Circular Economy insights at the bottom of the page."),
+        ]
+        for num, title, desc in steps:
+            st.markdown(
+                f"""
+                <div style='display:flex;align-items:flex-start;margin-bottom:10px;'>
+                  <div style='background:#2e7d32;color:white;border-radius:50%;
+                              min-width:28px;height:28px;display:flex;align-items:center;
+                              justify-content:center;font-weight:700;font-size:13px;
+                              margin-right:12px;margin-top:2px;'>{num}</div>
+                  <div>
+                    <b style='color:#1b5e20;'>{title}</b><br>
+                    <span style='font-size:13px;color:#333;'>{desc}</span>
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <div style='background:#e8f5e9;border-left:4px solid #2e7d32;
+                        padding:12px 16px;border-radius:6px;margin-top:8px;'>
+            <b style='color:#1b5e20;'>⚠️ Important:</b>
+            <span style='font-size:13px;'> Always press <b>Save</b> on each page before
+            navigating to the next. Unsaved inputs will not be included in the calculation.</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ── CE diagram ───────────────────────────────────────────────────────────
+    with col_b:
+        st.markdown(
+            "<h3 style='color:#2e7d32;margin-bottom:8px;'>Circular Economy Concept</h3>",
+            unsafe_allow_html=True)
+        st.markdown(
+            """
+            <svg viewBox="0 0 420 400" xmlns="http://www.w3.org/2000/svg" width="100%">
+              <!-- Background -->
+              <rect width="420" height="400" fill="#f1f8e9" rx="12"/>
+
+              <!-- Centre circle -->
+              <circle cx="210" cy="200" r="54" fill="#2e7d32"/>
+              <text x="210" y="194" text-anchor="middle" fill="white"
+                    font-size="12" font-weight="bold" font-family="Arial">Critical</text>
+              <text x="210" y="208" text-anchor="middle" fill="white"
+                    font-size="12" font-weight="bold" font-family="Arial">Materials</text>
+              <text x="210" y="222" text-anchor="middle" fill="#a5d6a7"
+                    font-size="10" font-family="Arial">(e.g. Tellurium)</text>
+
+              <!-- Node helper: cx,cy,label,sublabel -->
+              <!-- MANUFACTURE  top -->
+              <circle cx="210" cy="52" r="38" fill="#388e3c"/>
+              <text x="210" y="47" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">PV</text>
+              <text x="210" y="61" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">Manufacture</text>
+
+              <!-- USE  right -->
+              <circle cx="355" cy="200" r="38" fill="#43a047"/>
+              <text x="355" y="196" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">PV</text>
+              <text x="355" y="210" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">In Use</text>
+
+              <!-- END OF LIFE  bottom -->
+              <circle cx="210" cy="348" r="38" fill="#388e3c"/>
+              <text x="210" y="343" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">End of</text>
+              <text x="210" y="357" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">Life</text>
+
+              <!-- RECYCLING  left -->
+              <circle cx="65" cy="200" r="38" fill="#43a047"/>
+              <text x="65" y="196" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">Recycling</text>
+              <text x="65" y="210" text-anchor="middle" fill="white"
+                    font-size="11" font-weight="bold" font-family="Arial">&amp; Reuse</text>
+
+              <!-- Arrows (curved arcs between nodes) -->
+              <!-- top → right -->
+              <path d="M 242 68 Q 330 100 340 165" fill="none" stroke="#1b5e20"
+                    stroke-width="2.5" marker-end="url(#arr)"/>
+              <!-- right → bottom -->
+              <path d="M 340 233 Q 320 310 248 335" fill="none" stroke="#1b5e20"
+                    stroke-width="2.5" marker-end="url(#arr)"/>
+              <!-- bottom → left -->
+              <path d="M 173 340 Q 100 325 82 237" fill="none" stroke="#1b5e20"
+                    stroke-width="2.5" marker-end="url(#arr)"/>
+              <!-- left → top -->
+              <path d="M 78 163 Q 100 80 175 63" fill="none" stroke="#1b5e20"
+                    stroke-width="2.5" marker-end="url(#arr)"/>
+
+              <!-- CE loop inner arrow (recycling → centre → manufacture) -->
+              <path d="M 100 190 Q 155 185 158 148" fill="none" stroke="#66bb6a"
+                    stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arr2)"/>
+
+              <!-- Labels on arrows -->
+              <text x="306" y="122" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Material</text>
+              <text x="306" y="133" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Demand</text>
+
+              <text x="308" y="296" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Panel</text>
+              <text x="308" y="307" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Retirement</text>
+
+              <text x="102" y="302" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Collection</text>
+
+              <text x="108" y="110" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Recovered</text>
+              <text x="108" y="121" text-anchor="middle" fill="#1b5e20"
+                    font-size="9" font-family="Arial">Material</text>
+
+              <text x="148" y="178" text-anchor="middle" fill="#388e3c"
+                    font-size="8.5" font-family="Arial" font-style="italic">CE loop</text>
+
+              <!-- Supply inputs (external arrows into centre) -->
+              <!-- Mining -->
+              <line x1="155" y1="200" x2="120" y2="200" stroke="#a5d6a7"
+                    stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- By-product -->
+              <line x1="210" y1="146" x2="210" y2="110" stroke="#a5d6a7"
+                    stroke-width="1.5" stroke-dasharray="4,3"/>
+
+              <!-- Legend -->
+              <rect x="14" y="356" width="130" height="36" rx="5"
+                    fill="white" stroke="#c8e6c9" stroke-width="1"/>
+              <line x1="22" y1="367" x2="40" y2="367" stroke="#1b5e20"
+                    stroke-width="2"/>
+              <text x="44" y="371" fill="#333" font-size="9" font-family="Arial">
+                    Linear flow</text>
+              <line x1="22" y1="381" x2="40" y2="381" stroke="#66bb6a"
+                    stroke-width="1.8" stroke-dasharray="5,3"/>
+              <text x="44" y="385" fill="#333" font-size="9" font-family="Arial">
+                    CE recovery loop</text>
+
+              <!-- Arrow markers -->
+              <defs>
+                <marker id="arr" markerWidth="8" markerHeight="8"
+                        refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#1b5e20"/>
+                </marker>
+                <marker id="arr2" markerWidth="8" markerHeight="8"
+                        refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#66bb6a"/>
+                </marker>
+              </defs>
+            </svg>
+            """, unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <p style='font-size:11px;color:#555;text-align:center;margin-top:4px;'>
+            The green dashed loop shows how recycling &amp; reuse<br>
+            recover material back into manufacture — reducing<br>
+            dependence on primary mining.
+            </p>
+            """, unsafe_allow_html=True)
+
+    # ── CTA ─────────────────────────────────────────────────────────────────
+    st.markdown(
+        """
+        <div style='background:#2e7d32;padding:18px 24px;border-radius:10px;
+                    text-align:center;margin-top:20px;'>
+          <p style='color:white;font-size:16px;font-weight:700;margin:0;'>
+            🚀 Ready to start? Select <b>Project Description</b> in the sidebar →
+          </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ── End Welcome page ──────────────────────────────────────────────────────────
 
 # Page 1: Project Description
 
@@ -556,6 +794,11 @@ if page == "Project Description":
             st.session_state.input["scenario_option"] = scenario_option 
             st.session_state.save1 = True
             st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
+            st.markdown(
+                "<div style='background:#e8f5e9;border-left:4px solid #2e7d32;padding:10px 14px;"
+                "border-radius:6px;margin-top:8px;'>"
+                "✅ <b>Saved!</b> Now go to <b>Material Supply</b> in the sidebar to continue.</div>",
+                unsafe_allow_html=True)
                 
         else:
             st.markdown(f'<p style="color:red;font-weight:bold">Please enter the appropriate project timeline and try again</p>', unsafe_allow_html=True)
@@ -834,6 +1077,11 @@ if page == "Material Supply":
             st.session_state.input["pv_annual_supply"] = st.session_state.pv_material_supply
         st.session_state.save2 = True
         st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
+        st.markdown(
+            "<div style='background:#e8f5e9;border-left:4px solid #2e7d32;padding:10px 14px;"
+            "border-radius:6px;margin-top:8px;'>"
+            "✅ <b>Saved!</b> Now go to <b>Material Demand</b> in the sidebar to continue.</div>",
+            unsafe_allow_html=True)
             
 
 #---------------------------------------------------------------------------
@@ -1005,6 +1253,11 @@ if page == "Material Demand":
         st.session_state.input ["nonpv_demand_gr"] = nonpv_demand_gr
         st.session_state.save3 = True
         st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
+        st.markdown(
+            "<div style='background:#e8f5e9;border-left:4px solid #2e7d32;padding:10px 14px;"
+            "border-radius:6px;margin-top:8px;'>"
+            "✅ <b>Saved!</b> Now go to <b>Supply Gap and Price Effect</b> in the sidebar to continue.</div>",
+            unsafe_allow_html=True)
 #--------------------------------------------------        
     # Page 4: Supply Gap and Price Effect
 if page == "Supply Gap and Price Effect":
@@ -1245,6 +1498,12 @@ if page == "Supply Gap and Price Effect":
         st.session_state.input["global_stocks"] = global_stocks
         st.session_state.save4 = True
         st.write(f'<p style="color:red; font-size:18px;">Data saved</p>',unsafe_allow_html=True)
+        st.markdown(
+            "<div style='background:#e8f5e9;border-left:4px solid #2e7d32;padding:10px 14px;"
+            "border-radius:6px;margin-top:8px;'>"
+            "✅ <b>Saved!</b> Now go to <b>Modelling Inputs Review</b> to check all inputs, "
+            "then <b>Calculate Results</b> to run the model.</div>",
+            unsafe_allow_html=True)
 
 
 # Page 5: Modelling Inputs Review
