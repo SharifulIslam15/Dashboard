@@ -497,13 +497,14 @@ if page == "🏠 Welcome":
         """
         <div style='background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#388e3c 100%);
                     padding:48px 36px 40px 36px;border-radius:14px;margin-bottom:24px;text-align:center;'>
-            <p style='color:#a5d6a7;font-size:15px;font-weight:600;letter-spacing:3px;
+            <p style='color:#f9fbe7;font-size:15px;font-weight:600;letter-spacing:3px;
                       text-transform:uppercase;margin:0 0 8px 0;'>Michigan State University</p>
-            <h1 style='color:#ffffff;font-size:36px;font-weight:800;margin:0 0 10px 0;
-                       line-height:1.25;'>
-                Circular Economy &amp; Material Availability<br>Assessment Dashboard
+            <h1 style='color:#f9fbe7;font-size:38px;font-weight:900;margin:0 0 10px 0;
+                       line-height:1.25;text-shadow:1px 2px 6px rgba(0,0,0,0.45);
+                       font-family:Georgia,serif;letter-spacing:0.5px;'>
+                ♻️ Circular Economy &amp; Material Availability<br>Assessment Dashboard
             </h1>
-            <p style='color:#c8e6c9;font-size:16px;margin:0;'>
+            <p style='color:#dcedc8;font-size:16px;margin:0;font-style:italic;'>
                 A system-dynamics tool for forecasting critical PV material supply chains
             </p>
         </div>
@@ -584,123 +585,158 @@ if page == "🏠 Welcome":
     # ── CE diagram ───────────────────────────────────────────────────────────
     with col_b:
         st.markdown(
-            "<h3 style='color:#2e7d32;margin-bottom:8px;'>Circular Economy Concept</h3>",
+            "<h3 style='color:#2e7d32;margin-bottom:4px;'>Circular Economy Concept</h3>",
             unsafe_allow_html=True)
         st.markdown(
             """
-            <svg viewBox="0 0 420 400" xmlns="http://www.w3.org/2000/svg" width="100%">
-              <!-- Background -->
-              <rect width="420" height="400" fill="#f1f8e9" rx="12"/>
-
-              <!-- Centre circle -->
-              <circle cx="210" cy="200" r="54" fill="#2e7d32"/>
-              <text x="210" y="194" text-anchor="middle" fill="white"
-                    font-size="12" font-weight="bold" font-family="Arial">Critical</text>
-              <text x="210" y="208" text-anchor="middle" fill="white"
-                    font-size="12" font-weight="bold" font-family="Arial">Materials</text>
-              <text x="210" y="222" text-anchor="middle" fill="#a5d6a7"
-                    font-size="10" font-family="Arial">(e.g. Tellurium)</text>
-
-              <!-- Node helper: cx,cy,label,sublabel -->
-              <!-- MANUFACTURE  top -->
-              <circle cx="210" cy="52" r="38" fill="#388e3c"/>
-              <text x="210" y="47" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">PV</text>
-              <text x="210" y="61" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">Manufacture</text>
-
-              <!-- USE  right -->
-              <circle cx="355" cy="200" r="38" fill="#43a047"/>
-              <text x="355" y="196" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">PV</text>
-              <text x="355" y="210" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">In Use</text>
-
-              <!-- END OF LIFE  bottom -->
-              <circle cx="210" cy="348" r="38" fill="#388e3c"/>
-              <text x="210" y="343" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">End of</text>
-              <text x="210" y="357" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">Life</text>
-
-              <!-- RECYCLING  left -->
-              <circle cx="65" cy="200" r="38" fill="#43a047"/>
-              <text x="65" y="196" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">Recycling</text>
-              <text x="65" y="210" text-anchor="middle" fill="white"
-                    font-size="11" font-weight="bold" font-family="Arial">&amp; Reuse</text>
-
-              <!-- Arrows (curved arcs between nodes) -->
-              <!-- top → right -->
-              <path d="M 242 68 Q 330 100 340 165" fill="none" stroke="#1b5e20"
-                    stroke-width="2.5" marker-end="url(#arr)"/>
-              <!-- right → bottom -->
-              <path d="M 340 233 Q 320 310 248 335" fill="none" stroke="#1b5e20"
-                    stroke-width="2.5" marker-end="url(#arr)"/>
-              <!-- bottom → left -->
-              <path d="M 173 340 Q 100 325 82 237" fill="none" stroke="#1b5e20"
-                    stroke-width="2.5" marker-end="url(#arr)"/>
-              <!-- left → top -->
-              <path d="M 78 163 Q 100 80 175 63" fill="none" stroke="#1b5e20"
-                    stroke-width="2.5" marker-end="url(#arr)"/>
-
-              <!-- CE loop inner arrow (recycling → centre → manufacture) -->
-              <path d="M 100 190 Q 155 185 158 148" fill="none" stroke="#66bb6a"
-                    stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arr2)"/>
-
-              <!-- Labels on arrows -->
-              <text x="306" y="122" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Material</text>
-              <text x="306" y="133" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Demand</text>
-
-              <text x="308" y="296" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Panel</text>
-              <text x="308" y="307" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Retirement</text>
-
-              <text x="102" y="302" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Collection</text>
-
-              <text x="108" y="110" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Recovered</text>
-              <text x="108" y="121" text-anchor="middle" fill="#1b5e20"
-                    font-size="9" font-family="Arial">Material</text>
-
-              <text x="148" y="178" text-anchor="middle" fill="#388e3c"
-                    font-size="8.5" font-family="Arial" font-style="italic">CE loop</text>
-
-              <!-- Supply inputs (external arrows into centre) -->
-              <!-- Mining -->
-              <line x1="155" y1="200" x2="120" y2="200" stroke="#a5d6a7"
-                    stroke-width="1.5" stroke-dasharray="4,3"/>
-              <!-- By-product -->
-              <line x1="210" y1="146" x2="210" y2="110" stroke="#a5d6a7"
-                    stroke-width="1.5" stroke-dasharray="4,3"/>
-
-              <!-- Legend -->
-              <rect x="14" y="356" width="130" height="36" rx="5"
-                    fill="white" stroke="#c8e6c9" stroke-width="1"/>
-              <line x1="22" y1="367" x2="40" y2="367" stroke="#1b5e20"
-                    stroke-width="2"/>
-              <text x="44" y="371" fill="#333" font-size="9" font-family="Arial">
-                    Linear flow</text>
-              <line x1="22" y1="381" x2="40" y2="381" stroke="#66bb6a"
-                    stroke-width="1.8" stroke-dasharray="5,3"/>
-              <text x="44" y="385" fill="#333" font-size="9" font-family="Arial">
-                    CE recovery loop</text>
-
-              <!-- Arrow markers -->
+            <svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg" width="100%">
               <defs>
-                <marker id="arr" markerWidth="8" markerHeight="8"
-                        refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#1b5e20"/>
+                <marker id="a1" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+                  <polygon points="0 0, 9 3, 0 6" fill="#1b5e20"/>
                 </marker>
-                <marker id="arr2" markerWidth="8" markerHeight="8"
-                        refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#66bb6a"/>
+                <marker id="a2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+                  <polygon points="0 0, 9 3, 0 6" fill="#e65100"/>
+                </marker>
+                <marker id="a3" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+                  <polygon points="0 0, 9 3, 0 6" fill="#2196f3"/>
                 </marker>
               </defs>
+
+              <!-- Background -->
+              <rect width="400" height="420" fill="#f9fbe7" rx="14"/>
+
+              <!-- Title -->
+              <text x="200" y="28" text-anchor="middle" font-size="13"
+                    font-weight="bold" fill="#1b5e20" font-family="Arial">
+                Linear Economy  vs  Circular Economy
+              </text>
+
+              <!-- ── LINEAR row (top) ── -->
+              <!-- Label -->
+              <text x="12" y="70" font-size="10" fill="#555" font-family="Arial"
+                    font-weight="bold">LINEAR</text>
+              <line x1="12" y1="73" x2="388" y2="73" stroke="#ccc" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+              <!-- Boxes -->
+              <!-- EXTRACT -->
+              <rect x="12" y="82" width="68" height="34" rx="6" fill="#ef9a9a"/>
+              <text x="46" y="103" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#b71c1c" font-family="Arial">Extract</text>
+              <!-- arrow -->
+              <line x1="80" y1="99" x2="96" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
+              <!-- MANUFACTURE -->
+              <rect x="96" y="82" width="80" height="34" rx="6" fill="#ffe082"/>
+              <text x="136" y="97" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
+              <text x="136" y="109" text-anchor="middle" font-size="9"
+                    fill="#e65100" font-family="Arial">PV Panels</text>
+              <!-- arrow -->
+              <line x1="176" y1="99" x2="192" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
+              <!-- USE -->
+              <rect x="192" y="82" width="68" height="34" rx="6" fill="#a5d6a7"/>
+              <text x="226" y="103" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#1b5e20" font-family="Arial">Use</text>
+              <!-- arrow -->
+              <line x1="260" y1="99" x2="276" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
+              <!-- DISPOSE -->
+              <rect x="276" y="82" width="68" height="34" rx="6" fill="#b0bec5"/>
+              <text x="310" y="97" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#37474f" font-family="Arial">Dispose</text>
+              <text x="310" y="109" text-anchor="middle" font-size="9"
+                    fill="#37474f" font-family="Arial">(Landfill)</text>
+              <!-- X mark -->
+              <text x="360" y="104" font-size="18" fill="#c62828"
+                    font-weight="bold" font-family="Arial">✕</text>
+
+              <!-- ── CIRCULAR diagram (bottom) ── -->
+              <text x="12" y="148" font-size="10" fill="#555" font-family="Arial"
+                    font-weight="bold">CIRCULAR</text>
+              <line x1="12" y1="151" x2="388" y2="151" stroke="#ccc" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+              <!-- Centre oval -->
+              <ellipse cx="200" cy="285" rx="46" ry="28" fill="#2e7d32"/>
+              <text x="200" y="281" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="white" font-family="Arial">Critical</text>
+              <text x="200" y="294" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="white" font-family="Arial">Material</text>
+
+              <!-- Node: Mine/Extract  (top-left) -->
+              <rect x="18" y="168" width="74" height="36" rx="8" fill="#ef9a9a"/>
+              <text x="55" y="183" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#b71c1c" font-family="Arial">Extract /</text>
+              <text x="55" y="196" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#b71c1c" font-family="Arial">Mine</text>
+
+              <!-- Node: Manufacture  (top-right) -->
+              <rect x="308" y="168" width="74" height="36" rx="8" fill="#ffe082"/>
+              <text x="345" y="183" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
+              <text x="345" y="196" text-anchor="middle" font-size="10"
+                    fill="#e65100" font-family="Arial">PV Panels</text>
+
+              <!-- Node: In Use  (right) -->
+              <rect x="330" y="268" width="62" height="36" rx="8" fill="#a5d6a7"/>
+              <text x="361" y="283" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#1b5e20" font-family="Arial">In Use</text>
+              <text x="361" y="296" text-anchor="middle" font-size="9"
+                    fill="#1b5e20" font-family="Arial">25+ yrs</text>
+
+              <!-- Node: End of Life  (bottom) -->
+              <rect x="150" y="358" width="100" height="36" rx="8" fill="#ce93d8"/>
+              <text x="200" y="373" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#4a148c" font-family="Arial">End of Life</text>
+              <text x="200" y="386" text-anchor="middle" font-size="9"
+                    fill="#4a148c" font-family="Arial">Collection</text>
+
+              <!-- Node: Recycle / Reuse  (left) -->
+              <rect x="8" y="268" width="76" height="36" rx="8" fill="#80cbc4"/>
+              <text x="46" y="283" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#004d40" font-family="Arial">Recycle /</text>
+              <text x="46" y="296" text-anchor="middle" font-size="10"
+                    font-weight="bold" fill="#004d40" font-family="Arial">Reuse</text>
+
+              <!-- Circular arrows -->
+              <!-- Extract → Manufacture -->
+              <path d="M 92 179 Q 200 155 308 179" fill="none" stroke="#1b5e20"
+                    stroke-width="2" marker-end="url(#a1)"/>
+              <text x="200" y="162" text-anchor="middle" font-size="8.5"
+                    fill="#1b5e20" font-family="Arial">Material Input</text>
+
+              <!-- Manufacture → In Use -->
+              <path d="M 346 204 Q 355 240 350 268" fill="none" stroke="#1b5e20"
+                    stroke-width="2" marker-end="url(#a1)"/>
+
+              <!-- In Use → End of Life -->
+              <path d="M 345 304 Q 310 350 255 368" fill="none" stroke="#1b5e20"
+                    stroke-width="2" marker-end="url(#a1)"/>
+              <text x="320" y="350" text-anchor="middle" font-size="8"
+                    fill="#555" font-family="Arial">Retirement</text>
+
+              <!-- End of Life → Recycle -->
+              <path d="M 150 376 Q 95 370 84 304" fill="none" stroke="#2196f3"
+                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
+              <text x="88" y="360" text-anchor="middle" font-size="8"
+                    fill="#1565c0" font-family="Arial">♻ Recycle</text>
+
+              <!-- Recycle → Centre (back to supply) -->
+              <path d="M 84 268 Q 120 255 154 275" fill="none" stroke="#2196f3"
+                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
+
+              <!-- Centre → Manufacture (recovered material) -->
+              <path d="M 230 260 Q 280 230 308 195" fill="none" stroke="#2196f3"
+                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
+              <text x="287" y="233" text-anchor="middle" font-size="8"
+                    fill="#1565c0" font-family="Arial">Recovered</text>
+              <text x="287" y="243" text-anchor="middle" font-size="8"
+                    fill="#1565c0" font-family="Arial">Material</text>
+
+              <!-- Legend -->
+              <rect x="10" y="400" width="380" height="16" rx="4" fill="none"/>
+              <line x1="14" y1="408" x2="34" y2="408" stroke="#1b5e20" stroke-width="2"/>
+              <text x="38" y="412" font-size="8.5" fill="#333" font-family="Arial">Linear flow</text>
+              <line x1="110" y1="408" x2="130" y2="408" stroke="#2196f3"
+                    stroke-width="2" stroke-dasharray="5,3"/>
+              <text x="134" y="412" font-size="8.5" fill="#333" font-family="Arial">CE recovery loop (reduces virgin mining)</text>
             </svg>
             """, unsafe_allow_html=True)
 
@@ -746,11 +782,15 @@ if page == "Project Description":
         
 
     st.header("Project Description", divider='grey')
-    project_title = st.text_input("Project title", value=st.session_state.input["project_title"])
-    project_investigator = st.text_input("Enter your name", value=st.session_state.input["project_investigator"])
-    project_institution = st.text_input("Institution", value=st.session_state.input["project_institution"])
+    project_title = st.text_input("Project title", value=st.session_state.input["project_title"],
+        help="Enter a name for your analysis scenario (e.g. 'Tellurium Availability 2030-2035 — High Demand').")
+    project_investigator = st.text_input("Enter your name", value=st.session_state.input["project_investigator"],
+        help="Name of the person running this analysis.")
+    project_institution = st.text_input("Institution", value=st.session_state.input["project_institution"],
+        help="Your university, company, or organisation name.")
     use_options = ["I want to use an existing analysis", "I want to create my own scenario"]
-    selected_use_option = st.selectbox("Scenario*", use_options,index=st.session_state.input["user_input"])
+    selected_use_option = st.selectbox("Scenario*", use_options, index=st.session_state.input["user_input"],
+        help="Choose an existing pre-built scenario (with default values loaded automatically) or create your own by entering all inputs manually.")
 
     if selected_use_option == "I want to use an existing analysis":
         user_input = 1
@@ -767,10 +807,14 @@ if page == "Project Description":
         user_input = 0
         selected_supply_option = "none"
         scenario_option = 2
-        project_pv_technology = st.text_input("PV Technology*", value=st.session_state.input["project_PV_technology"])
-        project_target_metal = st.text_input("Target metal*", value=st.session_state.input["project_target_metal"])
-        project_starting_year= st.number_input("Project timeline - starting year*",min_value=2023, step=1, value=st.session_state.input["project_starting_year"])
-        project_final_year = st.number_input("Project timeline - final year*", min_value=2024, step=1, value=st.session_state.input["project_final_year"])
+        project_pv_technology = st.text_input("PV Technology*", value=st.session_state.input["project_PV_technology"],
+            help="The PV technology you are assessing (e.g. CdTe, CIGS, Perovskite).")
+        project_target_metal = st.text_input("Target metal*", value=st.session_state.input["project_target_metal"],
+            help="The critical material whose supply chain you are modelling (e.g. Tellurium, Indium, Gallium).")
+        project_starting_year = st.number_input("Project timeline - starting year*", min_value=2023, step=1, value=st.session_state.input["project_starting_year"],
+            help="First year of your study period. Must be 2023 or later.")
+        project_final_year = st.number_input("Project timeline - final year*", min_value=2024, step=1, value=st.session_state.input["project_final_year"],
+            help="Last year of your study period. Must be after the starting year.")
     
     project_description = st.text_area("Description", height=200, value=st.session_state.input["project_description"])
 
@@ -825,7 +869,9 @@ if page == "Material Supply":
                     """,unsafe_allow_html=True)
     # Add content for Subsection 1
     supply_options = ["Manually input annual production", "Calculate based on current production and future growth"]
-    selected_supply_option = st.selectbox("Select Supply Calculation Method", supply_options,index=st.session_state.input["supply_option"]-1)
+    selected_supply_option = st.selectbox("Select Supply Calculation Method", supply_options,
+        index=st.session_state.input["supply_option"]-1,
+        help="Choose how to estimate direct mining supply: enter values year-by-year, or calculate from current production and a growth rate.")
     if selected_supply_option == "Manually input annual production":
         supply_option = 1
         if "default_input_mine" not in st.session_state:
@@ -836,9 +882,11 @@ if page == "Material Supply":
             for i in range(year_s,year_f+1):
                 st.session_state.mine_prod[i-year_s] = st.session_state["default_input_mine"][i-2030]
         years_list = [f"{i}" for i in range(year_s, year_f+1)]
-        year = st.selectbox("Select the year for input",years_list)
+        year = st.selectbox("Select the year for input", years_list,
+            help="Pick the year you want to enter production data for.")
         i = years_list.index(year)
-        mine_prod = st.number_input(f"Enter the annual production (tonnes) for {year}", min_value=0.0, step=0.1, key=f"mine_annual_prod{i}")
+        mine_prod = st.number_input(f"Enter the annual production (tonnes) for {year}", min_value=0.0, step=0.1, key=f"mine_annual_prod{i}",
+            help="Total direct mining output of the target material for this year, in tonnes.")
         if st.button("Add",key="mine_prod1"):
             st.session_state.mine_prod[i] = mine_prod
             st.session_state["default_input_mine"][i] = mine_prod
@@ -856,21 +904,28 @@ if page == "Material Supply":
     
     if selected_supply_option == "Calculate based on current production and future growth":
         supply_option = 2
-        global_reserves = st.number_input("Enter the global reserves (tonnes)",min_value = 0.0, value=float(st.session_state.input["global_reserves"]))
-        global_production = st.number_input("Enter the current annual global production (tonnes)", min_value=0.0, value=float(st.session_state.input["global_production"]))
-        direct_mining_growth = st.number_input("Enter the annual growth rate (%)", min_value = 0.0, value=float(st.session_state.input["direct_mining_growth"]))
+        global_reserves = st.number_input("Enter the global reserves (tonnes)", min_value=0.0, value=float(st.session_state.input["global_reserves"]),
+            help="Total known recoverable reserves of the target material worldwide (tonnes). Used to model reserve depletion.")
+        global_production = st.number_input("Enter the current annual global production (tonnes)", min_value=0.0, value=float(st.session_state.input["global_production"]),
+            help="Current global mining output of the target material per year (tonnes). This is 'S' in the equation: TeD(t) = S × (1 + g/100).")
+        direct_mining_growth = st.number_input("Enter the annual growth rate (%)", min_value=0.0, value=float(st.session_state.input["direct_mining_growth"]),
+            help="Expected annual percentage increase in direct mining production. This is 'g' in the equation: TeD(t) = S × (1 + g/100).")
        
 #---------------------------------------------------------------------------
     st.divider()
     st.subheader("By-production")
     # Add content for Subsection 2
     bp_option = ["Manually input", "Use current production and average growth"]
-    bp_global_reserves_option = st.selectbox("Select Calculation method", bp_option, key="bp_global_reserves_option1",index=st.session_state.input["bp_reserve_option"]-1)
+    bp_global_reserves_option = st.selectbox("Select Calculation method", bp_option, key="bp_global_reserves_option1",
+        index=st.session_state.input["bp_reserve_option"]-1,
+        help="Choose how to estimate by-product supply: use current supply + growth rate, or manually specify host metal details.")
     
     if bp_global_reserves_option == "Use current production and average growth":
         bp_reserve_option = 2
-        bp_current_supply = st.number_input("Enter the current supply from by-production", min_value=0.0, step=0.1, key="bp_current_supply1", value=float(st.session_state.input["bp_current_supply"]))
-        bp_supply_growth = st.number_input("Enter the supply growth rate from by-production (%)", min_value=0.0, step=0.1, key="bp_supply_growth1", value=float(st.session_state.input["bp_supply_growth"]))
+        bp_current_supply = st.number_input("Enter the current supply from by-production", min_value=0.0, step=0.1, key="bp_current_supply1", value=float(st.session_state.input["bp_current_supply"]),
+            help="Current annual supply of the target material recovered as a by-product (e.g. Te from copper refining), in tonnes.")
+        bp_supply_growth = st.number_input("Enter the supply growth rate from by-production (%)", min_value=0.0, step=0.1, key="bp_supply_growth1", value=float(st.session_state.input["bp_supply_growth"]),
+            help="Expected annual percentage increase in by-product supply.")
 
     elif bp_global_reserves_option == "Manually input":
         bp_reserve_option = 1
@@ -895,12 +950,18 @@ if page == "Material Supply":
                 st.session_state.input["bp_hitchhiker_recovery_efficiency"][0] = 0.5
             for i in range(num_bp_hosts):
                 st.write(f"#### host metal {i+1}") 
-                bp_host_metal_name[i] = st.text_input(f"Enter the host metal {i+1} name",key=f"bp_host_metal_name{i}",value=st.session_state.input["bp_host_metal_name"][i])
-                bp_annual_production[i] = st.number_input(f"Enter the host metal {i+1} annual production (tonnes)",value=st.session_state.input["bp_annual_production"][i])
-                bp_global_reserves[i] = st.number_input(f"Enter the host metal {i+1} gloabl reserves (tonnes)", value=st.session_state.input["bp_global_reserves"][i])
-                bp_annual_production_growth[i] = st.number_input(f"Enter the host metal {i+1} annual production growth rate (%)", value=st.session_state.input["bp_annual_production_growth"][i])
-                bp_hitchhiker_content[i] = st.number_input(f"Enter the host metal {i+1} hitchhiker content (ppm)", value=st.session_state.input["bp_hitchhiker_content"][i]*1000000)
-                bp_hitchhiker_recovery_efficiency[i] = st.number_input(f"Enter the host metal {i+1} hitchhiker recovery efficiency (%)", value=st.session_state.input["bp_hitchhiker_recovery_efficiency"][i]*100)
+                bp_host_metal_name[i] = st.text_input(f"Enter the host metal {i+1} name",key=f"bp_host_metal_name{i}",value=st.session_state.input["bp_host_metal_name"][i],
+                    help="Name of the primary metal being mined (e.g. Copper). The target material is recovered as a by-product.")
+                bp_annual_production[i] = st.number_input(f"Enter the host metal {i+1} annual production (tonnes)",value=st.session_state.input["bp_annual_production"][i],
+                    help="Current annual global production of the host metal in tonnes (e.g. Copper anode production).")
+                bp_global_reserves[i] = st.number_input(f"Enter the host metal {i+1} gloabl reserves (tonnes)", value=st.session_state.input["bp_global_reserves"][i],
+                    help="Total known recoverable reserves of the host metal worldwide in tonnes.")
+                bp_annual_production_growth[i] = st.number_input(f"Enter the host metal {i+1} annual production growth rate (%)", value=st.session_state.input["bp_annual_production_growth"][i],
+                    help="Expected annual percentage growth in host metal production.")
+                bp_hitchhiker_content[i] = st.number_input(f"Enter the host metal {i+1} hitchhiker content (ppm)", value=st.session_state.input["bp_hitchhiker_content"][i]*1000000,
+                    help="Concentration of the target material in the host metal ore, in parts per million (ppm). E.g. Te content in copper anode ≈ 110 ppm.")
+                bp_hitchhiker_recovery_efficiency[i] = st.number_input(f"Enter the host metal {i+1} hitchhiker recovery efficiency (%)", value=st.session_state.input["bp_hitchhiker_recovery_efficiency"][i]*100,
+                    help="Percentage of the target material in the ore that is successfully recovered during processing (e.g. Te yield from copper electrorefining).")
         else:
             bp_host_metal_name = [0]*num_bp_hosts
             bp_annual_production = np.zeros(3)
@@ -916,18 +977,24 @@ if page == "Material Supply":
     st.subheader("Recycling of new solar panels")
     # Add content for Subsection 3
     panel_lifetime_options = ["Fixed Lifetime", "Weibull Model - Regular Loss Scenario", "Weibull Model - Early Loss Scenario"]
-    newpv_selected_panel_lifetime_option = st.selectbox("Select the panel lifetime assumption", panel_lifetime_options, key = "newpv_lifetime_option1", index=st.session_state.input["newpv_lifetime_option"]-1)
+    newpv_selected_panel_lifetime_option = st.selectbox("Select the panel lifetime assumption", panel_lifetime_options, key="newpv_lifetime_option1",
+        index=st.session_state.input["newpv_lifetime_option"]-1,
+        help="How panel end-of-life is modelled. Fixed Lifetime retires all panels at once; Weibull models spread retirements over time following a probability distribution.")
     if newpv_selected_panel_lifetime_option == "Fixed Lifetime":
         newpv_lifetime_option = 1
-        newpv_panel_lifetime = st.number_input("Panel lifetime (years)", min_value=0, step=1, value=st.session_state.input["newpv_panel_lifetime"],key = "newpv_lifetime_input1")
+        newpv_panel_lifetime = st.number_input("Panel lifetime (years)", min_value=0, step=1, value=st.session_state.input["newpv_panel_lifetime"], key="newpv_lifetime_input1",
+            help="Number of years a PV panel operates before it is retired and enters the waste stream. Typical value: 25–30 years.")
     elif newpv_selected_panel_lifetime_option == "Weibull Model - Early Loss Scenario":
         newpv_lifetime_option = 2
     elif newpv_selected_panel_lifetime_option == "Weibull Model - Regular Loss Scenario":
         newpv_lifetime_option = 3
         
-    newpv_recycling_efficiency = st.number_input("Enter the recycling efficiency (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_recycling_efficiency"]), key = "newpv_efficiency1")    
-    newpv_recycling_collection_efficiency = st.number_input("Enter the collection efficiency (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_recycling_collection_efficiency"]), key = "newpv_collection1")
-    newpv_percentage_panels_recycled = st.number_input("Enter the percentage of panels recycled (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_percentage_panels_recycled"]), key = "newpv_percentage1")
+    newpv_recycling_efficiency = st.number_input("Enter the recycling efficiency (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_recycling_efficiency"]), key="newpv_efficiency1",
+        help="Percentage of the target material that is successfully recovered from collected panels during the recycling process (e.g. 90% means 90% of Te in the panel is extracted).")
+    newpv_recycling_collection_efficiency = st.number_input("Enter the collection efficiency (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_recycling_collection_efficiency"]), key="newpv_collection1",
+        help="Percentage of retired panels that are actually collected and sent for recycling (vs. going to landfill). Higher = more CE-aligned.")
+    newpv_percentage_panels_recycled = st.number_input("Enter the percentage of panels recycled (%):", min_value=0.0, step=0.1, value=float(st.session_state.input["newpv_percentage_panels_recycled"]), key="newpv_percentage1",
+        help="Of the panels that are collected, the percentage that goes through a full recycling process (as opposed to reuse or remanufacturing).")
 
 #---------------------------------------------------------------------------    
     st.divider()
@@ -982,9 +1049,12 @@ if page == "Material Supply":
                 "Annual Material Intensity (kg/GWp)": st.session_state.input["pv_annual_mint1"],
             })
             st.write(pv_mint_data.to_html(index=False,justify='left', escape=False), unsafe_allow_html=True)
-        pv_recycling = st.number_input("Enter the percentage of panels recycled (%)",min_value=0.0, step=0.1, value=float(st.session_state.input["pv_recycling"]), key = "pv_recycling1")
-        pv_collection_efficiency = st.number_input("Enter the collection efficiency (%)",min_value=0.0, step=0.1, value=float(st.session_state.input["pv_collection_efficiency"]), key = "pv_collection_efficiency1")
-        pv_recycling_efficiency = st.number_input("Enter the recycling efficiency (%)",min_value=0.0, step=0.1, value=float(st.session_state.input["pv_recycling_efficiency"]), key = "pv_recycling_efficiency1")
+        pv_recycling = st.number_input("Enter the percentage of panels recycled (%)", min_value=0.0, step=0.1, value=float(st.session_state.input["pv_recycling"]), key="pv_recycling1",
+            help="Percentage of collected existing PV panels that go through a recycling process to recover the target material.")
+        pv_collection_efficiency = st.number_input("Enter the collection efficiency (%)", min_value=0.0, step=0.1, value=float(st.session_state.input["pv_collection_efficiency"]), key="pv_collection_efficiency1",
+            help="Percentage of retired existing panels that are successfully collected (vs. lost to landfill or informal disposal).")
+        pv_recycling_efficiency = st.number_input("Enter the recycling efficiency (%)", min_value=0.0, step=0.1, value=float(st.session_state.input["pv_recycling_efficiency"]), key="pv_recycling_efficiency1",
+            help="Percentage of the target material inside collected panels that is successfully extracted during recycling.")
         
         panel_lifetime_options = ["Fixed Lifetime", "Weibull Model - Regular Loss Scenario", "Weibull Model - Early Loss Scenario"]
         pv_panel_lifetime_option =  st.selectbox("Select the panel lifetime assumption", panel_lifetime_options, index=st.session_state.input["newpv_lifetime_option"]-1, key = "pv_lifetime_option1")
@@ -1233,8 +1303,10 @@ if page == "Material Demand":
         nonpv_demand_df = 0.0
         nonpv_demand_gr_df = 0.0
     # sty = st.session_state.input["project_starting_year"]
-    nonpv_demand = st.number_input (f"Enter the current non-PV demand for first Year (tonnes)", min_value=0.00, step=0.01, value = nonpv_demand_df)
-    nonpv_demand_gr = st.number_input ("Enter the annual growth rate in non-PV demand (%)", min_value=0.00, step=0.01, value = nonpv_demand_gr_df)
+    nonpv_demand = st.number_input(f"Enter the current non-PV demand for first Year (tonnes)", min_value=0.00, step=0.01, value=nonpv_demand_df,
+        help="Current annual demand for the target material from all non-PV sectors (e.g. electronics, industrial uses), in tonnes.")
+    nonpv_demand_gr = st.number_input("Enter the annual growth rate in non-PV demand (%)", min_value=0.00, step=0.01, value=nonpv_demand_gr_df,
+        help="Expected annual percentage growth in non-PV demand. Formula: Non-PV Demand(t) = Non-PV Demand(base) × (1 + rate/100)^years.")
     
     
     if st.button("Save",key="pv_demand1"):
@@ -1263,8 +1335,10 @@ if page == "Material Demand":
 if page == "Supply Gap and Price Effect":
     # Add content for Price Mechanism - Effect of Surplus on Material Price
     st.header("Price Mechanism - Effect of Surplus on Material Price", divider = 'grey')
-    target_metal_price = st.number_input("Enter the current price of the target metal ($/tonne)", min_value=0.00, step=0.01,key="target_metal_price1")
-    supply_gap_delay = st.number_input("Enter the delay time of surplus or gap (years)", min_value=0, step=1,key="supply_gap_delay1")
+    target_metal_price = st.number_input("Enter the current price of the target metal ($/tonne)", min_value=0.00, step=0.01, key="target_metal_price1",
+        help="Current market price of the target material (e.g. Tellurium spot price in $/tonne). Used as the baseline for price calculations.")
+    supply_gap_delay = st.number_input("Enter the delay time of surplus or gap (years)", min_value=0, step=1, key="supply_gap_delay1",
+        help="Number of years before a supply surplus or gap translates into a price change. Represents market response lag.")
     col1,col2 = st.columns([12,2])
     supply_gap_eq_degree = col1.selectbox("Please select the degree of supply gap price equation",[1,2,3],key="supply_gap_eq_degree1")
     col2.write("")
@@ -1452,7 +1526,8 @@ if page == "Supply Gap and Price Effect":
     # Add content for Material Global Stocks
     st.divider()
     st.subheader("Global Stocks")
-    global_stocks = st.number_input("Please enter the global stocks", min_value=0.00, step=0.01, value=7500.00)
+    global_stocks = st.number_input("Please enter the global stocks", min_value=0.00, step=0.01, value=7500.00,
+        help="Current global above-ground stocks (reserves already mined and held) of the target material in tonnes. For Tellurium, typical estimate is ~7,500 tonnes.")
 
     # save the data
     st.divider()
