@@ -589,164 +589,104 @@ if page == "🏠 Welcome":
             unsafe_allow_html=True)
         st.markdown(
             """
-            <svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <svg viewBox="0 0 400 430" xmlns="http://www.w3.org/2000/svg" width="100%">
               <defs>
                 <marker id="a1" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
                   <polygon points="0 0, 9 3, 0 6" fill="#1b5e20"/>
                 </marker>
                 <marker id="a2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-                  <polygon points="0 0, 9 3, 0 6" fill="#e65100"/>
-                </marker>
-                <marker id="a3" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-                  <polygon points="0 0, 9 3, 0 6" fill="#2196f3"/>
+                  <polygon points="0 0, 9 3, 0 6" fill="#1565c0"/>
                 </marker>
               </defs>
 
-              <!-- Background -->
-              <rect width="400" height="420" fill="#f9fbe7" rx="14"/>
+              <rect width="400" height="430" fill="#f9fbe7" rx="14"/>
 
-              <!-- Title -->
-              <text x="200" y="28" text-anchor="middle" font-size="13"
-                    font-weight="bold" fill="#1b5e20" font-family="Arial">
-                Linear Economy  vs  Circular Economy
-              </text>
+              <text x="200" y="22" text-anchor="middle" font-size="12"
+                    font-weight="bold" fill="#1b5e20" font-family="Arial">LINEAR vs CIRCULAR ECONOMY</text>
 
-              <!-- ── LINEAR row (top) ── -->
-              <!-- Label -->
-              <text x="12" y="70" font-size="10" fill="#555" font-family="Arial"
-                    font-weight="bold">LINEAR</text>
-              <line x1="12" y1="73" x2="388" y2="73" stroke="#ccc" stroke-width="0.8" stroke-dasharray="4,3"/>
+              <!-- LINEAR ROW -->
+              <text x="14" y="46" font-size="9" fill="#888" font-family="Arial" font-weight="bold">LINEAR (take → make → dispose)</text>
 
-              <!-- Boxes -->
-              <!-- EXTRACT -->
-              <rect x="12" y="82" width="68" height="34" rx="6" fill="#ef9a9a"/>
-              <text x="46" y="103" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#b71c1c" font-family="Arial">Extract</text>
-              <!-- arrow -->
-              <line x1="80" y1="99" x2="96" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
-              <!-- MANUFACTURE -->
-              <rect x="96" y="82" width="80" height="34" rx="6" fill="#ffe082"/>
-              <text x="136" y="97" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
-              <text x="136" y="109" text-anchor="middle" font-size="9"
-                    fill="#e65100" font-family="Arial">PV Panels</text>
-              <!-- arrow -->
-              <line x1="176" y1="99" x2="192" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
-              <!-- USE -->
-              <rect x="192" y="82" width="68" height="34" rx="6" fill="#a5d6a7"/>
-              <text x="226" y="103" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#1b5e20" font-family="Arial">Use</text>
-              <!-- arrow -->
-              <line x1="260" y1="99" x2="276" y2="99" stroke="#1b5e20" stroke-width="2" marker-end="url(#a1)"/>
-              <!-- DISPOSE -->
-              <rect x="276" y="82" width="68" height="34" rx="6" fill="#b0bec5"/>
-              <text x="310" y="97" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#37474f" font-family="Arial">Dispose</text>
-              <text x="310" y="109" text-anchor="middle" font-size="9"
-                    fill="#37474f" font-family="Arial">(Landfill)</text>
-              <!-- X mark -->
-              <text x="360" y="104" font-size="18" fill="#c62828"
-                    font-weight="bold" font-family="Arial">✕</text>
+              <rect x="12" y="54" width="60" height="30" rx="5" fill="#ef9a9a"/>
+              <text x="42" y="73" text-anchor="middle" font-size="9" font-weight="bold" fill="#b71c1c" font-family="Arial">Extract</text>
 
-              <!-- ── CIRCULAR diagram (bottom) ── -->
-              <text x="12" y="148" font-size="10" fill="#555" font-family="Arial"
-                    font-weight="bold">CIRCULAR</text>
-              <line x1="12" y1="151" x2="388" y2="151" stroke="#ccc" stroke-width="0.8" stroke-dasharray="4,3"/>
+              <line x1="72" y1="69" x2="84" y2="69" stroke="#555" stroke-width="1.5" marker-end="url(#a1)"/>
 
-              <!-- Centre oval -->
-              <ellipse cx="200" cy="285" rx="46" ry="28" fill="#2e7d32"/>
-              <text x="200" y="281" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="white" font-family="Arial">Critical</text>
-              <text x="200" y="294" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="white" font-family="Arial">Material</text>
+              <rect x="84" y="54" width="72" height="30" rx="5" fill="#ffe082"/>
+              <text x="120" y="66" text-anchor="middle" font-size="9" font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
+              <text x="120" y="77" text-anchor="middle" font-size="8" fill="#e65100" font-family="Arial">PV Panels</text>
 
-              <!-- Node: Mine/Extract  (top-left) -->
-              <rect x="18" y="168" width="74" height="36" rx="8" fill="#ef9a9a"/>
-              <text x="55" y="183" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#b71c1c" font-family="Arial">Extract /</text>
-              <text x="55" y="196" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#b71c1c" font-family="Arial">Mine</text>
+              <line x1="156" y1="69" x2="168" y2="69" stroke="#555" stroke-width="1.5" marker-end="url(#a1)"/>
 
-              <!-- Node: Manufacture  (top-right) -->
-              <rect x="308" y="168" width="74" height="36" rx="8" fill="#ffe082"/>
-              <text x="345" y="183" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
-              <text x="345" y="196" text-anchor="middle" font-size="10"
-                    fill="#e65100" font-family="Arial">PV Panels</text>
+              <rect x="168" y="54" width="54" height="30" rx="5" fill="#a5d6a7"/>
+              <text x="195" y="73" text-anchor="middle" font-size="9" font-weight="bold" fill="#1b5e20" font-family="Arial">In Use</text>
 
-              <!-- Node: In Use  (right) -->
-              <rect x="330" y="268" width="62" height="36" rx="8" fill="#a5d6a7"/>
-              <text x="361" y="283" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#1b5e20" font-family="Arial">In Use</text>
-              <text x="361" y="296" text-anchor="middle" font-size="9"
-                    fill="#1b5e20" font-family="Arial">25+ yrs</text>
+              <line x1="222" y1="69" x2="234" y2="69" stroke="#555" stroke-width="1.5" marker-end="url(#a1)"/>
 
-              <!-- Node: End of Life  (bottom) -->
-              <rect x="150" y="358" width="100" height="36" rx="8" fill="#ce93d8"/>
-              <text x="200" y="373" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#4a148c" font-family="Arial">End of Life</text>
-              <text x="200" y="386" text-anchor="middle" font-size="9"
-                    fill="#4a148c" font-family="Arial">Collection</text>
+              <rect x="234" y="54" width="68" height="30" rx="5" fill="#b0bec5"/>
+              <text x="268" y="66" text-anchor="middle" font-size="9" font-weight="bold" fill="#37474f" font-family="Arial">Dispose</text>
+              <text x="268" y="77" text-anchor="middle" font-size="8" fill="#37474f" font-family="Arial">(Landfill)</text>
 
-              <!-- Node: Recycle / Reuse  (left) -->
-              <rect x="8" y="268" width="76" height="36" rx="8" fill="#80cbc4"/>
-              <text x="46" y="283" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#004d40" font-family="Arial">Recycle /</text>
-              <text x="46" y="296" text-anchor="middle" font-size="10"
-                    font-weight="bold" fill="#004d40" font-family="Arial">Reuse</text>
+              <text x="318" y="73" font-size="16" fill="#c62828" font-weight="bold" font-family="Arial">✕</text>
 
-              <!-- Circular arrows -->
+              <!-- divider -->
+              <line x1="14" y1="100" x2="386" y2="100" stroke="#ccc" stroke-width="0.8"/>
+
+              <!-- CIRCULAR section label -->
+              <text x="14" y="118" font-size="9" fill="#888" font-family="Arial" font-weight="bold">CIRCULAR (keep materials in use)</text>
+
+              <!-- 5 nodes in pentagon -->
+              <!-- Top-left: Extract/Mine -->
+              <rect x="14" y="132" width="80" height="38" rx="6" fill="#ef9a9a"/>
+              <text x="54" y="147" text-anchor="middle" font-size="9" font-weight="bold" fill="#b71c1c" font-family="Arial">Extract / Mine</text>
+              <text x="54" y="160" text-anchor="middle" font-size="8" fill="#b71c1c" font-family="Arial">Virgin material</text>
+
+              <!-- Top-right: Manufacture -->
+              <rect x="306" y="132" width="80" height="38" rx="6" fill="#ffe082"/>
+              <text x="346" y="147" text-anchor="middle" font-size="9" font-weight="bold" fill="#e65100" font-family="Arial">Manufacture</text>
+              <text x="346" y="160" text-anchor="middle" font-size="8" fill="#e65100" font-family="Arial">PV Panels</text>
+
+              <!-- Right: In Use -->
+              <rect x="316" y="248" width="76" height="38" rx="6" fill="#a5d6a7"/>
+              <text x="354" y="263" text-anchor="middle" font-size="9" font-weight="bold" fill="#1b5e20" font-family="Arial">In Use</text>
+              <text x="354" y="276" text-anchor="middle" font-size="8" fill="#1b5e20" font-family="Arial">25+ years</text>
+
+              <!-- Bottom: End of Life -->
+              <rect x="152" y="350" width="96" height="38" rx="6" fill="#ce93d8"/>
+              <text x="200" y="365" text-anchor="middle" font-size="9" font-weight="bold" fill="#4a148c" font-family="Arial">End of Life</text>
+              <text x="200" y="378" text-anchor="middle" font-size="8" fill="#4a148c" font-family="Arial">Collection</text>
+
+              <!-- Left: Recycle/Reuse -->
+              <rect x="8" y="248" width="80" height="38" rx="6" fill="#80cbc4"/>
+              <text x="48" y="263" text-anchor="middle" font-size="9" font-weight="bold" fill="#004d40" font-family="Arial">Recycle / Reuse</text>
+              <text x="48" y="276" text-anchor="middle" font-size="8" fill="#004d40" font-family="Arial">Recover Te</text>
+
+              <!-- LINEAR flow arrows (dark green, solid, thin) -->
               <!-- Extract → Manufacture -->
-              <path d="M 92 179 Q 200 155 308 179" fill="none" stroke="#1b5e20"
-                    stroke-width="2" marker-end="url(#a1)"/>
-              <text x="200" y="162" text-anchor="middle" font-size="14.5"
-                    fill="#1b5e20" font-family="Arial">Material Input</text>
+              <path d="M 94 148 Q 200 128 306 148" fill="none" stroke="#1b5e20" stroke-width="1.8" marker-end="url(#a1)"/>
+              <text x="200" y="133" text-anchor="middle" font-size="8" fill="#1b5e20" font-family="Arial">material input</text>
 
               <!-- Manufacture → In Use -->
-              <path d="M 346 204 Q 355 240 350 268" fill="none" stroke="#1b5e20"
-                    stroke-width="2" marker-end="url(#a1)"/>
+              <path d="M 348 170 Q 358 210 354 248" fill="none" stroke="#1b5e20" stroke-width="1.8" marker-end="url(#a1)"/>
 
               <!-- In Use → End of Life -->
-              <path d="M 345 304 Q 310 350 255 368" fill="none" stroke="#1b5e20"
-                    stroke-width="2" marker-end="url(#a1)"/>
-              <text x="320" y="350" text-anchor="middle" font-size="8"
-                    fill="#555" font-family="Arial">Retirement</text>
+              <path d="M 330 286 Q 298 330 252 358" fill="none" stroke="#1b5e20" stroke-width="1.8" marker-end="url(#a1)"/>
+              <text x="310" y="335" text-anchor="middle" font-size="8" fill="#555" font-family="Arial">retire</text>
 
+              <!-- CE RECOVERY arrows (blue, thick, solid — no dashes needed) -->
               <!-- End of Life → Recycle -->
-              <path d="M 150 376 Q 95 370 84 304" fill="none" stroke="#2196f3"
-                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
-              <text x="88" y="360" text-anchor="middle" font-size="8"
-                    fill="#1565c0" font-family="Arial">♻ Recycle</text>
+              <path d="M 152 369 Q 100 372 88 286" fill="none" stroke="#1565c0" stroke-width="2.5" marker-end="url(#a2)"/>
+              <text x="94" y="358" text-anchor="middle" font-size="8" fill="#1565c0" font-family="Arial">recycle</text>
 
-              <!-- Recycle → Centre (back to supply) -->
-              <path d="M 84 268 Q 120 255 154 275" fill="none" stroke="#2196f3"
-                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
+              <!-- Recycle → Manufacture (CE shortcut, thick blue) -->
+              <path d="M 88 248 Q 88 195 306 162" fill="none" stroke="#1565c0" stroke-width="2.5" marker-end="url(#a2)"/>
+              <text x="170" y="196" text-anchor="middle" font-size="8" fill="#1565c0" font-family="Arial">recovered material</text>
 
-              <!-- Centre → Manufacture (recovered material) -->
-              <path d="M 230 260 Q 280 230 308 195" fill="none" stroke="#2196f3"
-                    stroke-width="2" stroke-dasharray="5,3" marker-end="url(#a3)"/>
-              <text x="287" y="233" text-anchor="middle" font-size="8"
-                    fill="#1565c0" font-family="Arial">Recovered</text>
-              <text x="287" y="243" text-anchor="middle" font-size="8"
-                    fill="#1565c0" font-family="Arial">Material</text>
+              <!-- CE label badge -->
+              <rect x="118" y="208" width="164" height="24" rx="10" fill="#1565c0"/>
+              <text x="200" y="224" text-anchor="middle" font-size="9" font-weight="bold" fill="white" font-family="Arial">CE loop — reduces virgin mining</text>
 
-              <!-- Legend -->
-              <rect x="10" y="400" width="380" height="16" rx="4" fill="none"/>
-              <line x1="14" y1="408" x2="34" y2="408" stroke="#1b5e20" stroke-width="2"/>
-              <text x="38" y="412" font-size="8.5" fill="#333" font-family="Arial">Linear flow</text>
-              <line x1="110" y1="408" x2="130" y2="408" stroke="#2196f3"
-                    stroke-width="2" stroke-dasharray="5,3"/>
-              <text x="134" y="412" font-size="8.5" fill="#333" font-family="Arial">Circular Economy</text>
             </svg>
-            """, unsafe_allow_html=True)
-
-        st.markdown(
-            """
-            <p style='font-size:11px;color:#555;text-align:center;margin-top:4px;'>
-            The green dashed loop shows how recycling &amp; reuse<br>
-            recover material back into manufacture — reducing<br>
-            dependence on primary mining.
-            </p>
             """, unsafe_allow_html=True)
 
     # ── CTA ─────────────────────────────────────────────────────────────────
