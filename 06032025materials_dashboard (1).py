@@ -2012,7 +2012,7 @@ if page == "Calculate Results":
             ind = year - start_year
 
             output = model.run(params={"Time":year,
-                                       "PV Future Production User Input": data["pv_user_input"],
+                                       "PV Future Production User Input": 2,
                                        "Planned Annual Incremental Capacity":convert_xr(start_year,data["annual_incremental_capacity1"]),
                                        "PV Deployment Initial Incremental": data["pv_initial_incremental1"],
                                        "Current Annual PV Deployment": data["pv_annual_deployment1"],
@@ -2040,18 +2040,17 @@ if page == "Calculate Results":
                                        "ExPV Material Intensity Annual":convert_xr(start_year,data["pv_annual_mint"]),
                                        "ExPV Material Intensity Constant":data["pv_avg_mint"],
                                        "Direct Mining Estimation Method User Input":data["supply_option"],
-                                       # Pass raw Series — the pysd model wraps it internally with StudyPeriod dims
                                        "Direct Mining Supply Manual": (
                                            data["mine_data"]["Annual production (tonnes)"]
                                            if isinstance(data["mine_data"], pd.DataFrame) and len(data["mine_data"]) > 0
                                            else pd.Series(np.zeros(end_year - start_year + 1))
                                        ),
                                        "Direct Mining Reserves User Input":data["global_reserves"],
-                                       # Original mapping: "Current DM GR" = current production (S), 
-                                       # "Direct mining current production User Input" = growth rate (g)
-                                       # TeD(t) = S * (1 + g/100)^(t - base_year)
-                                       "Current DM GR":data["global_production"],
-                                       "Direct mining current production User Input":data["direct_mining_growth"],
+                                       # "Current DM GR" = Current Direct Mining Growth Rate → direct_mining_growth
+                                       # "Direct mining current production User Input" → global_production (S)
+                                       # Equation: TeD(t) = S × (1 + g/100)
+                                       "Current DM GR":data["direct_mining_growth"],
+                                       "Direct mining current production User Input":data["global_production"],
                                        "Byproduction Estimation Method User Input":data["bp_reserve_option"],
                                        "byproduction supply User Input":data["bp_current_supply"],
                                        "current byproduction Growth Rate":data["bp_supply_growth"],
