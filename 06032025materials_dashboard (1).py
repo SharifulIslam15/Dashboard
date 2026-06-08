@@ -499,7 +499,7 @@ if page == "🏠 Welcome":
                     padding:48px 36px 40px 36px;border-radius:14px;margin-bottom:24px;text-align:center;'>
             <p style='color:#ffffff;font-size:15px;font-weight:600;letter-spacing:3px;
                       text-transform:uppercase;margin:0 0 8px 0;'>Michigan State University</p>
-            <h1 style='color:#f9fbe7;font-size:38px;font-weight:900;margin:0 0 10px 0;
+            <h1 style='color:#ffffff;font-size:38px;font-weight:900;margin:0 0 10px 0;
                        line-height:1.25;text-shadow:1px 2px 6px rgba(0,0,0,0.45);
                        font-family:Georgia,serif;letter-spacing:0.5px;'>
                 ♻️ Circular Economy &amp; Material Availability<br>Assessment Dashboard
