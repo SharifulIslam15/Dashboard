@@ -585,7 +585,7 @@ if page == "🏠 Welcome":
     # ── CE diagram ───────────────────────────────────────────────────────────
     with col_b:
         st.markdown(
-            "<h3 style='color:#2e7d32;margin-bottom:4px;'>Circular Economy Concept</h3>",
+            "<h3 style='color:#2e7d32;margin-bottom:4px;'>Circular Economy</h3>",
             unsafe_allow_html=True)
         st.markdown(
             """
@@ -684,7 +684,7 @@ if page == "🏠 Welcome":
 
               <!-- CE label badge -->
               <rect x="118" y="208" width="164" height="24" rx="10" fill="#1565c0"/>
-              <text x="200" y="224" text-anchor="middle" font-size="9" font-weight="bold" fill="white" font-family="Arial">CE loop — reduces virgin mining</text>
+              <text x="200" y="224" text-anchor="middle" font-size="9" font-weight="bold" fill="white" font-family="Arial">Circular Economy loop</text>
 
             </svg>
             """, unsafe_allow_html=True)
