@@ -699,7 +699,7 @@ if page == "🏠 Welcome":
               <!-- Extract → Manufacture -->
               <path d="M 92 179 Q 200 155 308 179" fill="none" stroke="#1b5e20"
                     stroke-width="2" marker-end="url(#a1)"/>
-              <text x="200" y="162" text-anchor="middle" font-size="8.5"
+              <text x="200" y="162" text-anchor="middle" font-size="14.5"
                     fill="#1b5e20" font-family="Arial">Material Input</text>
 
               <!-- Manufacture → In Use -->
